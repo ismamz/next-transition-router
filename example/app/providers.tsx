@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { PageTransitions } from '@ismamz/transitions';
+import { PageTransitions } from 'next-transition-router';
 import { DebugStage } from './_components/debug';
 
 const routes = {

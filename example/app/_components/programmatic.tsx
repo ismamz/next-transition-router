@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransitionRouter } from '@ismamz/transitions';
+import { useTransitionRouter } from 'next-transition-router';
 
 export function Programmatic() {
   const router = useTransitionRouter();

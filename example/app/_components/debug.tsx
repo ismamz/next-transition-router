@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransitionState } from '@ismamz/transitions';
+import { useTransitionState } from 'next-transition-router';
 
 export function DebugStage() {
   const { stage } = useTransitionState();

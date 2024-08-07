@@ -1,5 +1,5 @@
 {
-  "name": "transitions-example",
+  "name": "next-transition-router-example",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@ismamz/transitions": "workspace:*",
+    "next-transition-router": "workspace:*",
     "gsap": "^3.12.5",
     "next": "latest",
     "react": "latest",

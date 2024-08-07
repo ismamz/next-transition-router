@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { Programmatic } from './_components/programmatic';
 import { Title } from './_components/title';
-import { Link as TransitionLink } from '@ismamz/transitions';
+import { Link as TransitionLink } from 'next-transition-router';
 
 export default function HomePage() {
   return (

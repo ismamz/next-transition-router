@@ -1,12 +1,12 @@
-# transitions
+# next-transition-router
 
 Create animated transitions between pages using Next.js App Router and your favorite animation library.
 
-[**See it in action**](https://ismamz-transitions.vercel.app), and take a look at the [example source code](/example).
+[**See it in action**](https://next-transition-router.vercel.app), and take a look at the [example source code](/example).
 
 ## Disclaimer
 
-This project is currently in Beta. Please note that the API may change as features are enhanced and refined. Be aware that it doesn't cover all possible use cases. If you require a specific scenario, please [open an issue](https://github.com/ismamz/transitions/issues/new/choose), and we can explore the possibility of extending the functionality.
+This project is currently in Beta. Please note that the API may change as features are enhanced and refined. Be aware that it doesn't cover all possible use cases. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
 
 ## Features
 
@@ -15,6 +15,7 @@ This project is currently in Beta. Please note that the API may change as featur
 - Exclusively to be used with [Next.js App Router](https://nextjs.org/docs/app).
 - Quickly add animated transitions between pages using JavaScript or CSS.
 - Utilize popular libraries like [GSAP](https://gsap.com/resources/React/) or any other animation library.
+- If JavaScript is disabled, the router works normally.
 - Focused on customizable animations, not targeting the [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API).
 
 If you're looking to use the View Transitions API, check [next-view-transitions](https://github.com/shuding/next-view-transitions).
@@ -24,7 +25,7 @@ If you're looking to use the View Transitions API, check [next-view-transitions]
 Install the package using your preferred package manager, e.g.:
 
 ```sh
-npm install @ismamz/transitions
+npm install next-transition-router
 ```
 
 ## Usage
@@ -34,7 +35,7 @@ Create a client component to use the `PageTransitions` provider like this:
 ```tsx
 'use client';
 
-import { PageTransitions } from '@ismamz/transitions';
+import { PageTransitions } from 'next-transition-router';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -68,7 +69,7 @@ It works exactly like the [Next.js built-in `useRouter`](https://nextjs.org/docs
 ```tsx
 'use client';
 
-import { useTransitionRouter } from '@ismamz/transitions';
+import { useTransitionRouter } from 'next-transition-router';
 
 export function Programmatic() {
   const router = useTransitionRouter();
@@ -95,7 +96,7 @@ The values of `stage` can be one of these: `'entering' | 'leaving' | 'none'`.
 ```tsx
 'use client';
 
-import { useTransitionState } from '@ismamz/transitions';
+import { useTransitionState } from 'next-transition-router';
 
 export function Example() {
   const { stage } = useTransitionState();
@@ -128,7 +129,7 @@ If you want to ignore all links from auto-detection, you should set the property
 ```tsx
 'use client';
 
-import { PageTransitions } from '@ismamz/transitions';
+import { PageTransitions } from 'next-transition-router';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -152,7 +153,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 In this case, you need to use the custom `<Link>` component:
 
 ```tsx
-import { Link as TransitionLink } from '@ismamz/transitions';
+import { Link as TransitionLink } from 'next-transition-router';
 
 export function Example() {
   return <TransitionLink href="/about">About</TransitionLink>;

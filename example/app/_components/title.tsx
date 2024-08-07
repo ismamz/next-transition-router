@@ -1,7 +1,7 @@
 'use client';
 
 import { gsap } from 'gsap';
-import { useTransitionState } from '@ismamz/transitions';
+import { useTransitionState } from 'next-transition-router';
 import { useLayoutEffect, useRef } from 'react';
 
 export function Title({ children }: { children: React.ReactNode }) {

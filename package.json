@@ -1,5 +1,5 @@
 {
-  "name": "@ismamz/transitions",
+  "name": "next-transition-router",
   "version": "0.1.0",
   "type": "module",
   "description": "Create animated transitions between pages using Next.js App Router.",
@@ -26,7 +26,7 @@
     "email": "hola@isma.uy",
     "url": "https://isma.uy"
   },
-  "homepage": "https://ismamz-transitions.vercel.app",
+  "homepage": "https://next-transition-router.vercel.app",
   "license": "MIT",
   "dependencies": {
     "delegate-it": "^6.1.0"

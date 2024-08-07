@@ -16,7 +16,7 @@ export interface PageTransitionsProps {
   children: ReactNode;
   leave: (n: () => void, f: string, t: string) => void;
   enter: (n: () => void) => void;
-  auto: boolean;
+  auto?: boolean;
 }
 
 const PageTransitionsContext = createContext<{

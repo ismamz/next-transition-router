@@ -6,9 +6,7 @@ Create animated transitions between pages using Next.js App Router and your favo
 
 ## Disclaimer
 
-This project is currently in Beta. Please be aware that the API is subject to change as we continue to improve and refine our features.
-
-This package does not cover all use cases. Please [open an issue](https://github.com/ismamz/transitions/issues/new/choose) if you need a specific scenario, and we can explore extending it.
+This project is currently in Beta. Please be aware that the API is subject to change as we continue to improve and refine our features. Be aware that it does not cover all use cases. Please [open an issue](https://github.com/ismamz/transitions/issues/new/choose) if you need a specific scenario, and we can explore extending it.
 
 ## Features
 
@@ -56,9 +54,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-> 🧐 It should be a client component because you have to pass DOM functions as props to the `PageTransitions` provider.
+> 🧐 It should be a client component because you have to pass DOM functions as props to the provider.
 
-After that, you should import that component in the layout component (probably the root layout: `app/layout.tsx`).
+After that, you should import that component in the layout component (e.g.: `app/layout.tsx`).
 
 ### Programmatic navigation
 
@@ -110,7 +108,7 @@ Also, you can use the `data-stage` attribute added to the `<html>` tag with the 
 
 ### Ignore a link
 
-By default, all internal links, excluding anchor or fragment identifier links, automatically trigger the page transition hooks.
+By default, all internal links, excluding anchor or fragment identifier links, will trigger the page transition hooks.
 
 If you want to ignore a link, simply add the `data-transition-ignore` attribute:
 
@@ -120,7 +118,7 @@ If you want to ignore a link, simply add the `data-transition-ignore` attribute:
 </Link>
 ```
 
-Keep in mind that this is a custom data attribute, and the component is the [built-in Next.js Link component](https://nextjs.org/docs/app/api-reference/components/link).
+Be aware that this is a custom data attribute, and not a property of the [built-in Next.js Link component](https://nextjs.org/docs/app/api-reference/components/link).
 
 ## License
 

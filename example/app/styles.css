@@ -1,0 +1,95 @@
+:root {
+  --background: #fff;
+  --foreground: #111;
+  --accent: #2851cd;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #111;
+    --foreground: #fff;
+    --accent: #4a90eb;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  color: var(--foreground);
+  background-color: var(--background);
+}
+
+a {
+  color: var(--accent);
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-inline: 1rem;
+}
+
+section {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.layer {
+  position: fixed;
+  inset: 0;
+  background-color: var(--foreground);
+  color: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5vw;
+}
+
+#debug {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0.5em 1em;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 1.5rem;
+  z-index: 9999;
+}
+
+.title {
+  font-size: 10vw;
+}

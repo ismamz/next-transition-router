@@ -9,7 +9,6 @@ import {
 } from 'react';
 import delegate, { DelegateEvent } from 'delegate-it';
 import { usePathname, useRouter } from 'next/navigation';
-import { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export type Stage = 'leaving' | 'entering' | 'none';
 
@@ -17,6 +16,7 @@ export interface PageTransitionsProps {
   children: ReactNode;
   leave: (n: () => void, f: string, t: string) => void;
   enter: (n: () => void) => void;
+  auto: boolean;
 }
 
 const PageTransitionsContext = createContext<{
@@ -33,6 +33,7 @@ export function PageTransitions({
   children,
   leave,
   enter,
+  auto = true,
 }: PageTransitionsProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -40,6 +41,8 @@ export function PageTransitions({
   const [stage, setStage] = useState<Stage>('none');
 
   useEffect(() => {
+    if (!auto) return;
+
     const handleClick = (event: DelegateEvent) => {
       const anchor = event.delegateTarget as HTMLAnchorElement;
       const href = anchor?.getAttribute('href');
@@ -99,18 +102,4 @@ export function PageTransitions({
 
 export function useTransitionState() {
   return use(PageTransitionsContext);
-}
-
-export function useTransitionRouter() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const { leave, setStage } = useTransitionState();
-
-  return {
-    ...router,
-    push: (href: string, options?: NavigateOptions) => {
-      setStage('leaving');
-      leave(() => router.push(href, options), pathname, href);
-    },
-  };
 }

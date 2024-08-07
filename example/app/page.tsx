@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { Programmatic } from './_components/programmatic';
 import { Title } from './_components/title';
+import { Link as TransitionLink } from '@ismamz/transitions';
 
 export default function HomePage() {
   return (
@@ -27,6 +28,21 @@ export default function HomePage() {
         <a href="/about" data-transition-ignore>
           Ignore (a)
         </a>
+        <TransitionLink href="/about" data-transition-ignore>
+          Ignore event delegation and use custom Link component
+        </TransitionLink>
+        <TransitionLink href="/about" data-transition-ignore replace>
+          Ignore event delegation and use custom Link component (replace)
+        </TransitionLink>
+
+        <TransitionLink
+          href="/about"
+          data-transition-ignore
+          replace
+          scroll={false}
+        >
+          Ignore event delegation and use custom Link component (scroll = false)
+        </TransitionLink>
       </section>
 
       <section id="example">

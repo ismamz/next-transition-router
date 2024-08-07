@@ -53,6 +53,14 @@ a {
   color: var(--accent);
 }
 
+button {
+  all: unset;
+  display: block;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 main {
   max-width: 800px;
   margin: 0 auto;
@@ -91,5 +99,5 @@ section {
 }
 
 .title {
-  font-size: 10vw;
+  font-size: 8vw;
 }

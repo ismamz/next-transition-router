@@ -10,7 +10,8 @@ This project is currently in Beta. Please be aware that the API is subject to ch
 
 ## Features
 
-- [OPINIONATED] Automatically detect internal links to handle page transitions.
+- Automatically detect internal links to handle page transitions (by default).
+- Use a custom `Link` component to manually handle page transitions.
 - Exclusively to be used with [Next.js App Router](https://nextjs.org/docs/app).
 - Quickly add animated transitions between pages using JavaScript or CSS.
 - Utilize popular libraries like [GSAP](https://gsap.com/resources/React/) or any other animation library.
@@ -36,18 +37,18 @@ Create a client component to use the `PageTransitions` provider like this:
 import { PageTransitions } from '@ismamz/transitions';
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const handleLeave = (next, from, to) => {
-    // The current page is still visible.
-    // Call `next()` when your "leave" logic ends.
-    // `from` and `to` are the current & next page routes.
-  };
-
-  const handleEnter = next => {
-    // Call `next()` when your "enter" logic ends.
-  };
-
   return (
-    <PageTransitions leave={handleLeave} enter={handleEnter}>
+    <PageTransitions
+      leave={(next, from, to) => {
+        // do some cool animation when the current page is still visible
+        // when the animation ends, call the `next` function
+        // `from` and `to` are the current & next page routes.
+      }}
+      enter={next => {
+        // perform an entry animation to reveal the new page that is ready
+        // when the animation ends, call the `next`function
+      }}
+    >
       {children}
     </PageTransitions>
   );
@@ -79,13 +80,13 @@ export function Programmatic() {
         router.push('/about');
       }}
     >
-      programmatic navigation (/about)
+      programmatic push navigation (/about)
     </button>
   );
 }
 ```
 
-### Transition State
+### Transition state
 
 You can use the `useTransitionState` hook to get the current transition stage.
 
@@ -119,6 +120,44 @@ If you want to ignore a link, simply add the `data-transition-ignore` attribute:
 ```
 
 Be aware that this is a custom data attribute, and not a property of the [built-in Next.js Link component](https://nextjs.org/docs/app/api-reference/components/link).
+
+### Turn off `auto` detection and use a custom `Link` component
+
+If you want to ignore all links from auto-detection, you should set the property `auto` to `false` in the `PageTransitions` provider.
+
+```tsx
+'use client';
+
+import { PageTransitions } from '@ismamz/transitions';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <PageTransitions
+      auto={false}
+      leave={(next, from, to) => {
+        console.log(`transitioning… from: ${from} to: ${to}`);
+        next();
+      }}
+      enter={next => {
+        console.log('ready to show the new page');
+        next();
+      }}
+    >
+      {children}
+    </PageTransitions>
+  );
+}
+```
+
+In this case, you need to use the custom `<Link>` component:
+
+```tsx
+import { Link as TransitionLink } from '@ismamz/transitions';
+
+export function Example() {
+  return <TransitionLink href="/about">About</TransitionLink>;
+}
+```
 
 ## License
 

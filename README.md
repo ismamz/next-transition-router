@@ -6,12 +6,12 @@ Create animated transitions between pages using Next.js App Router and your favo
 
 ## Disclaimer
 
-This project is currently in Beta. Please be aware that the API is subject to change as we continue to improve and refine our features. Be aware that it does not cover all use cases. Please [open an issue](https://github.com/ismamz/transitions/issues/new/choose) if you need a specific scenario, and we can explore extending it.
+This project is currently in Beta. Please note that the API may change as features are enhanced and refined. Be aware that it doesn't cover all possible use cases. If you require a specific scenario, please [open an issue](https://github.com/ismamz/transitions/issues/new/choose), and we can explore the possibility of extending the functionality.
 
 ## Features
 
 - Automatically detect internal links to handle page transitions (by default).
-- Use a custom `Link` component to manually handle page transitions.
+- Use a custom `Link` component to manually handle page transitions (optional).
 - Exclusively to be used with [Next.js App Router](https://nextjs.org/docs/app).
 - Quickly add animated transitions between pages using JavaScript or CSS.
 - Utilize popular libraries like [GSAP](https://gsap.com/resources/React/) or any other animation library.
@@ -42,11 +42,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       leave={(next, from, to) => {
         // do some cool animation when the current page is still visible
         // when the animation ends, call the `next` function
-        // `from` and `to` are the current & next page routes.
+        // `from` and `to` are the current and next page routes
       }}
-      enter={next => {
+      enter={(next) => {
         // perform an entry animation to reveal the new page that is ready
-        // when the animation ends, call the `next`function
+        // when the animation ends, call the `next` function
       }}
     >
       {children}
@@ -55,7 +55,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-> 🧐 It should be a client component because you have to pass DOM functions as props to the provider.
+> It should be a client component because you have to pass DOM functions as props to the provider.
 
 After that, you should import that component in the layout component (e.g.: `app/layout.tsx`).
 
@@ -80,7 +80,7 @@ export function Programmatic() {
         router.push('/about');
       }}
     >
-      programmatic push navigation (/about)
+      programmatic navigation (push to /about)
     </button>
   );
 }
@@ -115,13 +115,13 @@ If you want to ignore a link, simply add the `data-transition-ignore` attribute:
 
 ```html
 <Link href="/about" data-transition-ignore>
-  Don't trigger the page transition here 🙏
+  Don't trigger the page transition for this link
 </Link>
 ```
 
 Be aware that this is a custom data attribute, and not a property of the [built-in Next.js Link component](https://nextjs.org/docs/app/api-reference/components/link).
 
-### Turn off `auto` detection and use a custom `Link` component
+### Turn off auto-detection and use a custom `Link` component
 
 If you want to ignore all links from auto-detection, you should set the property `auto` to `false` in the `PageTransitions` provider.
 

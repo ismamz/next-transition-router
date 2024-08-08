@@ -127,38 +127,20 @@ Be aware that this is a custom data attribute, and not a property of the [built-
 If you want to ignore all links from auto-detection, you should set the property `auto` to `false` in the `TransitionRouter` provider.
 
 ```tsx
-'use client';
-
-import { TransitionRouter } from 'next-transition-router';
-
-export function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <TransitionRouter
-      auto={false}
-      leave={(next, from, to) => {
-        console.log(`transitioning… from: ${from} to: ${to}`);
-        next();
-      }}
-      enter={next => {
-        console.log('ready to show the new page');
-        next();
-      }}
-    >
-      {children}
-    </TransitionRouter>
-  );
-}
+<TransitionRouter auto={false}>{children}</TransitionRouter>
 ```
 
 In this case, you need to use the custom `<Link>` component:
 
 ```tsx
-import { Link as TransitionLink } from 'next-transition-router';
+import { Link } from 'next-transition-router';
 
 export function Example() {
-  return <TransitionLink href="/about">About</TransitionLink>;
+  return <Link href="/about">About</Link>;
 }
 ```
+
+> You can use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts with the default Link component from Next.js.
 
 ## Add a delay before navigate to the next page
 

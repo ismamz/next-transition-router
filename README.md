@@ -45,7 +45,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         // when the animation ends, call the `next` function
         // `from` and `to` are the current and next page routes
       }}
-      enter={next => {
+      enter={(next) => {
         // perform an entry animation to reveal the new page that is ready
         // when the animation ends, call the `next` function
       }}
@@ -127,7 +127,9 @@ Be aware that this is a custom data attribute, and not a property of the [built-
 If you want to ignore all links from auto-detection, you should set the property `auto` to `false` in the `TransitionRouter` provider.
 
 ```tsx
-<TransitionRouter auto={false}>{children}</TransitionRouter>
+<TransitionRouter auto={false}>
+  {children}
+</TransitionRouter>
 ```
 
 In this case, you need to use the custom `<Link>` component:
@@ -140,7 +142,7 @@ export function Example() {
 }
 ```
 
-> You can use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts with the default Link component from Next.js.
+> You can use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts with the default `Link` component from Next.js.
 
 ## Add a delay before navigate to the next page
 
@@ -149,7 +151,9 @@ export function Example() {
 You don't need to set `enter` and `leave` hooks if you need to use just CSS animations, but you will need to set a `duration` value.
 
 ```tsx
-<TransitionRouter duration={1000}>{children}</TransitionRouter>
+<TransitionRouter duration={1000}>
+  {children}
+</TransitionRouter>
 ```
 
 ## Summary

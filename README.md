@@ -170,6 +170,15 @@ You don't need to set `enter` and `leave` hooks if you need to use just CSS anim
 <TransitionRouter duration={1000}>{children}</TransitionRouter>
 ```
 
+## Summary
+
+| Prop       | Type       | Default Value    | Description                                       |
+| ---------- | ---------- | ---------------- | ------------------------------------------------- |
+| `leave`    | `function` | `next => next()` | Function to handle the leaving animation          |
+| `enter`    | `function` | `next => next()` | Function to handle the entering animation         |
+| `auto`     | `boolean`  | `true`           | Flag to enable/disable auto-detection of links    |
+| `duration` | `number`   | `undefined`      | Delay in milliseconds before navigating to a page |
+
 ## License
 
 MIT.

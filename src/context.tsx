@@ -22,17 +22,19 @@ export interface TransitionRouterProps {
   auto?: boolean;
 }
 
-const sleep = async (ms: number) =>
+export const sleep = async (ms: number) =>
   new Promise(resolve => setTimeout(resolve, ms));
 
 const TransitionRouterContext = createContext<{
   stage: Stage;
   setStage: Dispatch<SetStateAction<Stage>>;
   leave: TransitionRouterProps['leave'];
+  duration?: number;
 }>({
   stage: 'none',
   setStage: () => {},
   leave: () => {},
+  duration: undefined,
 });
 
 export function TransitionRouter({
@@ -106,7 +108,10 @@ export function TransitionRouter({
     document.documentElement.dataset.stage = stage;
   }, [stage]);
 
-  const value = useMemo(() => ({ stage, setStage, leave }), [stage, leave]);
+  const value = useMemo(
+    () => ({ stage, setStage, leave, duration }),
+    [stage, leave, duration]
+  );
 
   return (
     <TransitionRouterContext.Provider value={value}>

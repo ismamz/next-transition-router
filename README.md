@@ -162,7 +162,7 @@ export function Example() {
 
 ## Add a delay before navigate to the next page
 
-Use the property `duration` to set the time in milliseconds before navigating to the next page.
+`TransitionRouter` component accepts a `duration` prop, which allows specifying a delay in milliseconds before navigating to the next page.
 
 You don't need to set `enter` and `leave` hooks if you need to use just CSS animations, but you will need to set a `duration` value.
 

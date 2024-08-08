@@ -16,10 +16,14 @@ export type Stage = 'leaving' | 'entering' | 'none';
 
 export interface TransitionRouterProps {
   children: ReactNode;
-  leave: (n: () => void, f: string, t: string) => void;
-  enter: (n: () => void) => void;
+  leave?: (n: () => void, f: string, t: string) => void;
+  enter?: (n: () => void) => void;
+  duration?: number;
   auto?: boolean;
 }
+
+const sleep = async (ms: number) =>
+  new Promise(resolve => setTimeout(resolve, ms));
 
 const TransitionRouterContext = createContext<{
   stage: Stage;
@@ -33,8 +37,9 @@ const TransitionRouterContext = createContext<{
 
 export function TransitionRouter({
   children,
-  leave,
-  enter,
+  leave = next => next(),
+  enter = next => next(),
+  duration,
   auto = true,
 }: TransitionRouterProps) {
   const router = useRouter();
@@ -57,10 +62,17 @@ export function TransitionRouter({
       ) {
         event.preventDefault();
         setStage('leaving');
-        leave(() => router.push(href), pathname, href);
+
+        const navigate = () => leave(() => router.push(href), pathname, href);
+
+        if (duration) {
+          sleep(duration).then(navigate);
+        } else {
+          navigate();
+        }
       }
     },
-    [router, pathname, leave]
+    [router, pathname, leave, duration]
   );
 
   useEffect(() => {

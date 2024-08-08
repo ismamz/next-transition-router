@@ -160,6 +160,16 @@ export function Example() {
 }
 ```
 
+## Add a delay before navigate to the next page
+
+Use the property `duration` to set the time in milliseconds before navigating to the next page.
+
+You don't need to set `enter` and `leave` hooks if you need to use just CSS animations, but you will need to set a `duration` value.
+
+```tsx
+<TransitionRouter duration={1000}>{children}</TransitionRouter>
+```
+
 ## License
 
 MIT.

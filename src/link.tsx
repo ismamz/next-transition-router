@@ -11,10 +11,11 @@ export function Link(props: React.ComponentProps<typeof NextLink>) {
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       if (props.onClick) props.onClick(e);
 
-      e.preventDefault();
-
-      const navigate = replace ? router.replace : router.push;
-      navigate((as || href) as string, { scroll: scroll ?? true });
+      if (!e.defaultPrevented) {
+        e.preventDefault();
+        const navigate = replace ? router.replace : router.push;
+        navigate((as || href) as string, { scroll: scroll ?? true });
+      }
     },
     [props.onClick, href, as, replace, scroll]
   );

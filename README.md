@@ -30,28 +30,28 @@ npm install next-transition-router
 
 ## Usage
 
-Create a client component to use the `PageTransitions` provider like this:
+Create a client component to use the `TransitionRouter` provider like this:
 
 ```tsx
 'use client';
 
-import { PageTransitions } from 'next-transition-router';
+import { TransitionRouter } from 'next-transition-router';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <PageTransitions
+    <TransitionRouter
       leave={(next, from, to) => {
         // do some cool animation when the current page is still visible
         // when the animation ends, call the `next` function
         // `from` and `to` are the current and next page routes
       }}
-      enter={(next) => {
+      enter={next => {
         // perform an entry animation to reveal the new page that is ready
         // when the animation ends, call the `next` function
       }}
     >
       {children}
-    </PageTransitions>
+    </TransitionRouter>
   );
 }
 ```
@@ -124,16 +124,16 @@ Be aware that this is a custom data attribute, and not a property of the [built-
 
 ### Turn off auto-detection and use a custom `Link` component
 
-If you want to ignore all links from auto-detection, you should set the property `auto` to `false` in the `PageTransitions` provider.
+If you want to ignore all links from auto-detection, you should set the property `auto` to `false` in the `TransitionRouter` provider.
 
 ```tsx
 'use client';
 
-import { PageTransitions } from 'next-transition-router';
+import { TransitionRouter } from 'next-transition-router';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <PageTransitions
+    <TransitionRouter
       auto={false}
       leave={(next, from, to) => {
         console.log(`transitioning… from: ${from} to: ${to}`);
@@ -145,7 +145,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
-    </PageTransitions>
+    </TransitionRouter>
   );
 }
 ```

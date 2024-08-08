@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { PageTransitions } from 'next-transition-router';
+import { TransitionRouter } from 'next-transition-router';
 import { DebugStage } from './_components/debug';
 
 const routes = {
@@ -17,7 +17,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [nextPageName, setNextPageName] = useState('');
 
   return (
-    <PageTransitions
+    <TransitionRouter
       leave={(next, from, to) => {
         console.log({ from, to });
 
@@ -102,6 +102,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <span style={{ visibility: 'hidden' }}>{nextPageName}</span>
       </div>
       <DebugStage />
-    </PageTransitions>
+    </TransitionRouter>
   );
 }

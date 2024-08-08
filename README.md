@@ -172,6 +172,8 @@ You don't need to set `enter` and `leave` hooks if you need to use just CSS anim
 
 ## Summary
 
+### `TransitionRouter`
+
 | Prop       | Type       | Default Value    | Description                                       |
 | ---------- | ---------- | ---------------- | ------------------------------------------------- |
 | `leave`    | `function` | `next => next()` | Function to handle the leaving animation          |

@@ -1,8 +1,8 @@
-import { Providers } from './providers';
+import { Navbar } from './_components/navbar';
 import './styles.css';
 
 export const metadata = {
-  title: 'Page Transitions in Next.js App Router',
+  title: 'Transition Router - page transitions in Next.js App Router',
   description:
     'Create animated transitions between pages using Next.js App Router and your favorite animation library.',
 };
@@ -11,7 +11,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        {children}
+        <Navbar />
       </body>
     </html>
   );

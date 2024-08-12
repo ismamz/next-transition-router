@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { TransitionRouter } from 'next-transition-router';
-import { DebugStage } from './_components/debug';
+import { DebugStage } from '../_components/debug';
 
 const routes = {
   '/': 'Home',

@@ -1,7 +1,0 @@
-.with-css {
-  transition: 600ms; /* match with TransitionRouter duration prop */
-}
-
-[data-stage='leaving'] .with-css {
-  opacity: 0;
-}

@@ -22,12 +22,6 @@
   margin: 0;
 } */
 
-body {
-  margin: 0;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
 img,
 picture,
 video,
@@ -45,7 +39,12 @@ select {
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  margin: 0;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+
+  font-family: var(--font-mono), system-ui, sans-serif;
+  font-weight: 300;
   color: var(--foreground);
   background-color: var(--background);
 }

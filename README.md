@@ -1,4 +1,8 @@
-# next-transition-router
+<div align="center">
+  <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="none"><rect width="100" height="100" fill="#111" rx="20"/><path fill="tomato" d="M84.78 50c0 12.524-10.153 22.677-22.677 22.677S39.426 62.524 39.426 50s10.153-22.677 22.677-22.677S84.781 37.476 84.781 50"/><path fill="#fff" d="M60.574 50c0 12.524-10.153 22.677-22.677 22.677S15.22 62.524 15.22 50s10.152-22.677 22.677-22.677c12.524 0 22.677 10.153 22.677 22.677"/><path fill="#111" fill-rule="evenodd" d="M63.137 50c0 13.94-11.3 25.24-25.24 25.24S12.657 63.94 12.657 50s11.3-25.24 25.24-25.24 25.24 11.3 25.24 25.24m-25.24 22.677c12.524 0 22.677-10.153 22.677-22.677S50.421 27.323 37.897 27.323 15.22 37.476 15.22 50s10.152 22.677 22.677 22.677" clip-rule="evenodd"/><path fill="#111" d="m35.088 60.54 5.58-7.112q.402-.546.913-.911.546-.402.948-.511H27.502v-4.012h14.881q-.402-.11-.875-.474a4.6 4.6 0 0 1-.84-.839l-5.616-7.222h5.033l8.206 10.505L40.05 60.54z"/></svg>
+
+  <h1>next-transition-router</h1>
+</div>
 
 Create animated transitions between pages using Next.js App Router and your favorite animation library.
 
@@ -144,18 +148,6 @@ export function Example() {
 
 > You can use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts with the default `Link` component from Next.js.
 
-## Add a delay before navigate to the next page
-
-`TransitionRouter` component accepts a `duration` prop, which allows specifying a delay in milliseconds before navigating to the next page.
-
-You don't need to set `enter` and `leave` hooks if you need to use just CSS animations, but you will need to set a `duration` value.
-
-```tsx
-<TransitionRouter duration={1000}>
-  {children}
-</TransitionRouter>
-```
-
 ## Summary
 
 ### `TransitionRouter`
@@ -165,7 +157,6 @@ You don't need to set `enter` and `leave` hooks if you need to use just CSS anim
 | `leave`    | `function` | `next => next()` | Function to handle the leaving animation          |
 | `enter`    | `function` | `next => next()` | Function to handle the entering animation         |
 | `auto`     | `boolean`  | `true`           | Flag to enable/disable auto-detection of links    |
-| `duration` | `number`   | `undefined`      | Delay in milliseconds before navigating to a page |
 
 ## License
 

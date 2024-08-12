@@ -18,30 +18,25 @@ export interface TransitionRouterProps {
   children: ReactNode;
   leave?: (n: () => void, f: string, t: string) => void;
   enter?: (n: () => void) => void;
-  duration?: number;
+
   auto?: boolean;
 }
-
-export const sleep = async (ms: number) =>
-  new Promise(resolve => setTimeout(resolve, ms));
 
 const TransitionRouterContext = createContext<{
   stage: Stage;
   setStage: Dispatch<SetStateAction<Stage>>;
   leave: TransitionRouterProps['leave'];
-  duration?: number;
 }>({
   stage: 'none',
   setStage: () => {},
   leave: () => {},
-  duration: undefined,
 });
 
 export function TransitionRouter({
   children,
   leave = next => next(),
   enter = next => next(),
-  duration,
+
   auto = true,
 }: TransitionRouterProps) {
   const router = useRouter();
@@ -64,17 +59,10 @@ export function TransitionRouter({
       ) {
         event.preventDefault();
         setStage('leaving');
-
-        const navigate = () => leave(() => router.push(href), pathname, href);
-
-        if (duration) {
-          sleep(duration).then(navigate);
-        } else {
-          navigate();
-        }
+        leave(() => router.push(href), pathname, href);
       }
     },
-    [router, pathname, leave, duration]
+    [router, pathname, leave]
   );
 
   useEffect(() => {
@@ -108,10 +96,7 @@ export function TransitionRouter({
     document.documentElement.dataset.stage = stage;
   }, [stage]);
 
-  const value = useMemo(
-    () => ({ stage, setStage, leave, duration }),
-    [stage, leave, duration]
-  );
+  const value = useMemo(() => ({ stage, setStage, leave }), [stage, leave]);
 
   return (
     <TransitionRouterContext.Provider value={value}>

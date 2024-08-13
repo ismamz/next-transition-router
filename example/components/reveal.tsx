@@ -1,10 +1,13 @@
 'use client';
 
 import { useTransitionState } from 'next-transition-router';
-import { useEffect } from 'react';
+import { ComponentProps, useEffect } from 'react';
 import { gsap } from 'gsap';
 
-export function Reveal({ children }: { children: React.ReactNode }) {
+export function Reveal({
+  children,
+  ...rest
+}: { children: React.ReactNode } & ComponentProps<'div'>) {
   const { stage } = useTransitionState();
 
   useEffect(() => {
@@ -17,5 +20,5 @@ export function Reveal({ children }: { children: React.ReactNode }) {
     }
   }, [stage]);
 
-  return <>{children}</>;
+  return <div {...rest}>{children}</div>;
 }

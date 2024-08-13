@@ -8,7 +8,7 @@ export default function AboutPage() {
   return (
     <>
       <div className="px-8 lg:px-16 lg:max-w-[75%] mx-auto h-screen flex items-center flex-col justify-center">
-        <Title className="uppercase font-normal text-[3.75rem] lg:text-[12rem] relative z-20 mix-blend-color-dodge leading-[.85] text-center text-[tomato] mb-8">
+        <Title className="uppercase font-normal text-[3.75rem] lg:text-[12rem] relative z-20 mix-blend-color-dodge leading-[.85] text-center text-[tomato] mb-8 mt-64 lg:mt-0">
           <div className="overflow-hidden">
             <span className="block">Make the</span>
           </div>
@@ -26,11 +26,11 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <Reveal>
+      <Reveal className="absolute inset-0 z-0 overflow-hidden">
         <Image
           id="full-image"
           src={imageFull}
-          className="w-full h-full object-cover absolute inset-0 z-0 object-bottom scale-[2]"
+          className="w-full h-full object-cover object-bottom scale-[2]"
           alt=""
           priority
         />

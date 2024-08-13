@@ -1,10 +1,10 @@
+import Link from "next/link";
 import Image from "next/image";
-import image1 from "@/assets/image-1.jpg";
+import { Link as TransitionLink } from "next-transition-router";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
-import Link from "next/link";
-import { Link as TransitionLink } from "next-transition-router";
 import { Programmatic } from "@/components/programmatic";
+import image1 from "@/assets/image-1.jpg";
 
 export default function HomePage() {
   return (

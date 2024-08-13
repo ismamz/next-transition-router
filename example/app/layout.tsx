@@ -1,39 +1,41 @@
-import localFont from 'next/font/local';
-import './styles.css';
-import { cn } from './utils';
+import localFont from "next/font/local";
+import { Header } from "@/components/header";
+import { Debug } from "@/components/debug";
+import { Providers } from "./providers";
+import "./styles.css";
 
-export const metadata = {
-  title: 'Transition Router - page transitions in Next.js App Router',
-  description:
-    'Create animated transitions between pages using Next.js App Router and your favorite animation library.',
-};
-
-export const primaryFont = localFont({
-  variable: '--font-primary',
+const primaryFont = localFont({
+  variable: "--font-primary",
   preload: true,
   src: [
     {
-      path: '../assets/fonts/NeueMontreal-Regular.woff2',
-      weight: 'normal',
-      style: 'normal',
+      path: "../assets/fonts/NeueMontreal-Regular.woff2",
+      weight: "normal",
+      style: "normal",
     },
     {
-      path: '../assets/fonts/NeueMontreal-Italic.woff2',
-      weight: 'normal',
-      style: 'italic',
+      path: "../assets/fonts/NeueMontreal-Italic.woff2",
+      weight: "normal",
+      style: "italic",
     },
     {
-      path: '../assets/fonts/NeueMontreal-Medium.woff2',
-      weight: '500',
-      style: 'normal',
+      path: "../assets/fonts/NeueMontreal-Medium.woff2",
+      weight: "500",
+      style: "normal",
     },
     {
-      path: '../assets/fonts/NeueMontreal-MediumItalic.woff2',
-      weight: '500',
-      style: 'italic',
+      path: "../assets/fonts/NeueMontreal-MediumItalic.woff2",
+      weight: "500",
+      style: "italic",
     },
   ],
 });
+
+export const metadata = {
+  title: "Transition Router - page transitions in Next.js App Router",
+  description:
+    "Create animated transitions between pages using Next.js App Router and your favorite animation library.",
+};
 
 export default function RootLayout({
   children,
@@ -41,8 +43,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn(primaryFont.variable)}>
-      <body>{children}</body>
+    <html lang="en" className={primaryFont.variable}>
+      <body>
+        <Providers>
+          <Header />
+          {children}
+          <Debug />
+        </Providers>
+      </body>
     </html>
   );
 }

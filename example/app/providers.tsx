@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 
-const routes = {
-  "/": "Home",
-  "/demo": "Demo",
-};
+// const routes = {
+//   "/": "Home",
+//   "/demo": "Demo",
+// };
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const firstLayer = useRef<HTMLDivElement | null>(null);

@@ -1,10 +1,10 @@
 import Image from "next/image";
-import imageFull from "@/assets/image-full.jpg";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
 import { Reveal } from "@/components/reveal";
+import imageFull from "@/assets/image-full.jpg";
 
-export default function AboutPage() {
+export default function DemoPage() {
   return (
     <>
       <div className="px-8 lg:px-16 lg:max-w-[75%] mx-auto h-dvh flex items-center flex-col justify-center">

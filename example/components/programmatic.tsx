@@ -10,8 +10,8 @@ export function Programmatic() {
       <button
         className="underline"
         onClick={() => {
-          alert("You're about to go to /about");
-          router.push("/about");
+          alert("You're about to go to /demo");
+          router.push("/demo");
         }}
       >
         programmatic push
@@ -19,8 +19,8 @@ export function Programmatic() {
       <button
         className="underline"
         onClick={() => {
-          alert("You're about to go to /about");
-          router.replace("/about");
+          alert("You're about to go to /demo");
+          router.replace("/demo");
         }}
       >
         programmatic replace

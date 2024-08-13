@@ -34,21 +34,21 @@ export default function HomePage() {
             id="home-image"
           />
 
-          <ButtonLink href="/about" className="relative lg:absolute right-0">
+          <ButtonLink href="/demo" className="relative lg:absolute right-0">
             Navigate
           </ButtonLink>
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 mb-6 lg:mb-8 ml-8 lg:ml-16 z-50 text-gray-400 text-sm flex gap-4 items-center py-2 lg:py-3">
+      <div className="fixed bottom-0 left-0 mb-6 lg:mb-8 ml-8 lg:ml-16 z-50 text-gray-500 text-sm flex gap-4 items-center py-2 lg:py-3">
         <span className="uppercase font-medium text-xs">Demo: </span>
 
-        <Link href="/about" data-transition-ignore className="underline">
-          link ignored
+        <Link href="/demo" data-transition-ignore className="underline">
+          ignore transition
         </Link>
 
         <TransitionLink
-          href="/about"
+          href="/demo"
           data-transition-ignore
           className="underline"
         >

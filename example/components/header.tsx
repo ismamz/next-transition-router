@@ -33,6 +33,7 @@ export function Header() {
         href="https://github.com/ismamz/next-transition-router"
         target="_blank"
         className="flex items-center gap-3 text-lg lg:text-xl uppercase font-medium no-underline text-black hover:opacity-75 transition-opacity duration-300"
+        title="GitHub repository and documentation"
       >
         <svg
           width="25"
@@ -46,7 +47,8 @@ export function Header() {
             fill="currentColor"
           />
         </svg>
-        GitHub<span aria-hidden={true}> ↗</span>
+        <span>GitHub</span>
+        <span aria-hidden={true}> ↗</span>
       </Link>
     </header>
   );

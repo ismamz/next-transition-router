@@ -8,13 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
-    "next-transition-router": "workspace:*",
+    "clsx": "^2.1.1",
     "gsap": "^3.12.5",
     "next": "latest",
+    "next-transition-router": "workspace:*",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
-    "@types/node": "latest"
+    "@types/node": "latest",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.9"
   }
 }

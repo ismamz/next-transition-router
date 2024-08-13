@@ -3,7 +3,6 @@
 import { useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { TransitionRouter } from 'next-transition-router';
-import { DebugStage } from '../_components/debug';
 
 const routes = {
   '/': 'Home',
@@ -11,49 +10,77 @@ const routes = {
 };
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const mainRef = useRef<HTMLElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
   const layerRef = useRef<HTMLDivElement | null>(null);
+  const layerRef2 = useRef<HTMLDivElement | null>(null);
 
   return (
     <TransitionRouter
+      auto={true}
       leave={(next, from, to) => {
+        // layerRef.current.textContent = routes[to];
+
         gsap
           .timeline({
             onComplete: next,
           })
           .fromTo(
             layerRef.current,
-            { autoAlpha: 0, x: '100%' },
+            { y: '100%' },
             {
-              x: 0,
-              autoAlpha: 1,
-              duration: 0.6,
+              y: 0,
+              duration: 0.5,
               ease: 'circ.inOut',
             }
+          )
+          .fromTo(
+            layerRef2.current,
+            {
+              y: '100%',
+            },
+            {
+              y: 0,
+              duration: 0.5,
+              ease: 'circ.inOut',
+            },
+            '<50%'
           );
       }}
       enter={next => {
         gsap
-          .timeline({
-            onComplete: next,
-          })
+          .timeline()
           .fromTo(
-            layerRef.current,
-            { autoAlpha: 1, x: 0 },
+            layerRef2.current,
+            { y: 0 },
             {
-              x: '-100%',
-              autoAlpha: 0,
-              duration: 0.6,
+              y: '-100%',
+              duration: 0.5,
               ease: 'circ.inOut',
             }
-          );
+          )
+          .fromTo(
+            layerRef.current,
+            { y: 0 },
+            {
+              y: '-100%',
+              duration: 0.5,
+              ease: 'circ.inOut',
+            },
+            '<50%'
+          )
+          .call(next, undefined, '<50%');
       }}
     >
       <main ref={mainRef}>{children}</main>
-      <div ref={layerRef} className="big-word">
-        CHOTA
-      </div>
-      <DebugStage />
+
+      <div
+        ref={layerRef}
+        className="fixed z-50 inset-0 bg-primary translate-y-full"
+      />
+      <div
+        ref={layerRef2}
+        className="fixed z-50 inset-0 bg-foreground translate-y-full"
+      />
     </TransitionRouter>
   );
 }

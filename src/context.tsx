@@ -18,7 +18,6 @@ export interface TransitionRouterProps {
   children: ReactNode;
   leave?: (n: () => void, f: string, t: string) => void;
   enter?: (n: () => void) => void;
-
   auto?: boolean;
 }
 
@@ -36,8 +35,7 @@ export function TransitionRouter({
   children,
   leave = next => next(),
   enter = next => next(),
-
-  auto = true,
+  auto = false,
 }: TransitionRouterProps) {
   const router = useRouter();
   const pathname = usePathname();

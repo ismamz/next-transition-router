@@ -1,10 +1,17 @@
 'use client';
 
+import { cn } from '@/app/utils';
 import { gsap } from 'gsap';
 import { useTransitionState } from 'next-transition-router';
 import { useLayoutEffect, useRef } from 'react';
 
-export function Title({ children }: { children: React.ReactNode }) {
+export function Title({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className: string;
+}) {
   const { stage } = useTransitionState();
   const ref = useRef<HTMLHeadingElement | null>(null);
 
@@ -17,12 +24,11 @@ export function Title({ children }: { children: React.ReactNode }) {
           .timeline()
           .set(ref.current, { autoAlpha: 1 })
           .from('span', {
-            y: 100,
-            autoAlpha: 0,
+            y: '100%',
             duration: 0.6,
             ease: 'circ.out',
             stagger: {
-              each: 0.05,
+              each: 0.1,
             },
           });
       }, ref);
@@ -34,11 +40,7 @@ export function Title({ children }: { children: React.ReactNode }) {
   }, [isReady]);
 
   return (
-    <h1
-      ref={ref}
-      style={{ visibility: isReady ? 'visible' : 'hidden' }}
-      className="title"
-    >
+    <h1 ref={ref} className={cn(className, isReady ? 'visible' : 'invisible')}>
       {children}
     </h1>
   );

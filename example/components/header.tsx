@@ -1,9 +1,12 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export function Header() {
   return (
     <header className="w-full flex items-center justify-between px-8 lg:px-16 py-6 lg:py-8 fixed top-0 left-0 z-30">
-      <Link href="/" className="text-black">
+      <Link
+        href="/"
+        className="text-black hover:opacity-75 transition-opacity duration-300"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="70"
@@ -23,12 +26,13 @@ export function Header() {
             clipRule="evenodd"
           />
         </svg>
+        <span className="sr-only">next-transition-router</span>
       </Link>
 
       <Link
         href="https://github.com/ismamz/next-transition-router"
         target="_blank"
-        className="flex items-center gap-3 text-md lg:text-xl uppercase font-medium no-underline text-black"
+        className="flex items-center gap-3 text-lg lg:text-xl uppercase font-medium no-underline text-black hover:opacity-75 transition-opacity duration-300"
       >
         <svg
           width="25"
@@ -42,7 +46,7 @@ export function Header() {
             fill="currentColor"
           />
         </svg>
-        GitHub
+        GitHub<span aria-hidden={true}> ↗</span>
       </Link>
     </header>
   );

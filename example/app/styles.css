@@ -22,7 +22,7 @@
 
 body {
   -webkit-font-smoothing: antialiased;
-  font-family: 'Neue Montreal', system-ui, sans-serif;
+  font-family: var(--font-primary), system-ui, sans-serif;
   color: var(--foreground);
   background-color: var(--background);
   font-size: var(--font-size, 16px);

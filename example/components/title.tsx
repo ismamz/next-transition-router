@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { cn } from '@/app/utils';
-import { gsap } from 'gsap';
-import { useTransitionState } from 'next-transition-router';
-import { useLayoutEffect, useRef } from 'react';
+import { cn } from "@/app/utils";
+import { gsap } from "gsap";
+import { useTransitionState } from "next-transition-router";
+import { useLayoutEffect, useRef } from "react";
 
 export function Title({
   children,
@@ -15,20 +15,22 @@ export function Title({
   const { stage } = useTransitionState();
   const ref = useRef<HTMLHeadingElement | null>(null);
 
-  const isReady = stage === 'none';
+  const isReady = stage !== "entering";
 
   useLayoutEffect(() => {
     if (isReady) {
       const ctx = gsap.context(() => {
         gsap
           .timeline()
-          .set(ref.current, { autoAlpha: 1 })
-          .from('span', {
-            y: '100%',
+          .set(ref.current, {
+            autoAlpha: 1,
+          })
+          .from("span", {
+            y: "110%",
             duration: 0.6,
-            ease: 'circ.out',
+            ease: "circ.out",
             stagger: {
-              each: 0.1,
+              each: 0.2,
             },
           });
       }, ref);
@@ -40,7 +42,7 @@ export function Title({
   }, [isReady]);
 
   return (
-    <h1 ref={ref} className={cn(className, isReady ? 'visible' : 'invisible')}>
+    <h1 ref={ref} className={cn(className, "invisible")}>
       {children}
     </h1>
   );

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useTransitionRouter } from 'next-transition-router';
+import { useTransitionRouter } from "next-transition-router";
 
 export function Programmatic() {
   const router = useTransitionRouter();
@@ -8,20 +8,22 @@ export function Programmatic() {
   return (
     <>
       <button
+        className="underline"
         onClick={() => {
           alert("You're about to go to /about");
-          router.push('/about');
+          router.push("/about");
         }}
       >
-        programmatic push navigation (/about)
+        programmatic push
       </button>
       <button
+        className="underline"
         onClick={() => {
           alert("You're about to go to /about");
-          router.replace('/about');
+          router.replace("/about");
         }}
       >
-        programmatic replace navigation (/about)
+        programmatic replace
       </button>
     </>
   );

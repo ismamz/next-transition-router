@@ -4,7 +4,7 @@ import { Link as TransitionLink } from "next-transition-router";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
 import { Programmatic } from "@/components/programmatic";
-import image1 from "@/assets/image-1.jpg";
+import demoImage from "@/assets/image.jpg";
 
 export default function HomePage() {
   return (
@@ -26,12 +26,12 @@ export default function HomePage() {
 
         <div className="relative z-0 lg:flex items-center">
           <Image
-            src={image1}
+            src={demoImage}
             alt=""
             width={460}
-            className="rotate-[-7deg] lg:-translate-x-[4rem] w-[14rem] lg:w-[28rem]"
+            height={580}
+            className="rotate-[-7deg] lg:-translate-x-[4rem] w-[14rem] lg:w-[28rem] lg:h-[36rem] object-cover"
             priority
-            id="home-image"
           />
 
           <ButtonLink href="/demo" className="relative lg:absolute right-0">

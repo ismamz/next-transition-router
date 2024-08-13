@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
 import { Reveal } from "@/components/reveal";
-import imageFull from "@/assets/image-full.jpg";
+import demoImage from "@/assets/image.jpg";
 
 export default function DemoPage() {
   return (
@@ -28,7 +28,7 @@ export default function DemoPage() {
 
       <Reveal className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src={imageFull}
+          src={demoImage}
           className="w-full h-full object-cover object-bottom scale-[2]"
           alt=""
           priority

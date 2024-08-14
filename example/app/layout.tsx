@@ -34,7 +34,7 @@ const primaryFont = localFont({
 export const metadata = {
   title: "Transition Router - page transitions in Next.js App Router",
   description:
-    "Create animated transitions between pages using Next.js App Router and your favorite animation library.",
+    "Easily add animated transitions between pages using Next.js App Router and your favorite animation library.",
 };
 
 export default function RootLayout({

@@ -4,11 +4,6 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 
-// const routes = {
-//   "/": "Home",
-//   "/demo": "Demo",
-// };
-
 export function Providers({ children }: { children: React.ReactNode }) {
   const firstLayer = useRef<HTMLDivElement | null>(null);
   const secondLayer = useRef<HTMLDivElement | null>(null);
@@ -17,7 +12,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <TransitionRouter
       auto={true}
       leave={(next, from, to) => {
-        gsap
+        console.log({ from, to });
+
+        const tl = gsap
           .timeline({
             onComplete: next,
           })
@@ -28,7 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
               y: 0,
               duration: 0.5,
               ease: "circ.inOut",
-            }
+            },
           )
           .fromTo(
             secondLayer.current,
@@ -40,11 +37,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
               duration: 0.5,
               ease: "circ.inOut",
             },
-            "<50%"
+            "<50%",
           );
+
+        return () => {
+          tl.kill();
+        };
       }}
-      enter={next => {
-        gsap
+      enter={(next) => {
+        const tl = gsap
           .timeline()
           .fromTo(
             secondLayer.current,
@@ -53,7 +54,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
               y: "-100%",
               duration: 0.5,
               ease: "circ.inOut",
-            }
+            },
           )
           .fromTo(
             firstLayer.current,
@@ -63,20 +64,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
               duration: 0.5,
               ease: "circ.inOut",
             },
-            "<50%"
+            "<50%",
           )
           .call(next, undefined, "<50%");
+
+        return () => {
+          tl.kill();
+        };
       }}
     >
-      {children}
+      <main>{children}</main>
 
       <div
         ref={firstLayer}
-        className="fixed z-50 inset-0 bg-primary translate-y-full"
+        className="fixed inset-0 z-50 translate-y-full bg-primary"
       />
       <div
         ref={secondLayer}
-        className="fixed z-50 inset-0 bg-foreground translate-y-full"
+        className="fixed inset-0 z-50 translate-y-full bg-foreground"
       />
     </TransitionRouter>
   );

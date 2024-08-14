@@ -1,27 +1,25 @@
-import { useCallback, useMemo } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { useTransitionState } from './context';
+import { useCallback, useMemo } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useTransitionState } from "./context";
 
 export function useTransitionRouter() {
   const router = useRouter();
   const pathname = usePathname();
-  const { leave, setStage } = useTransitionState();
+  const { navigate } = useTransitionState();
 
   const push = useCallback(
     (href: string, options?: NavigateOptions) => {
-      setStage('leaving');
-      leave(() => router.push(href, options), pathname, href);
+      navigate(href, pathname, "push", options);
     },
-    [router, leave, pathname, setStage]
+    [pathname]
   );
 
   const replace = useCallback(
     (href: string, options?: NavigateOptions) => {
-      setStage('leaving');
-      leave(() => router.replace(href, options), pathname, href);
+      navigate(href, pathname, "replace", options);
     },
-    [router, leave, pathname, setStage]
+    [pathname]
   );
 
   return useMemo(

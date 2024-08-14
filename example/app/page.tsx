@@ -10,8 +10,8 @@ import { Reveal } from "@/components/reveal";
 export default function HomePage() {
   return (
     <>
-      <div className="px-8 lg:px-16 h-dvh flex items-center justify-center flex-col lg:flex-row">
-        <Title className="text-6xl lg:text-9xl uppercase leading-[.85] lg:leading-[.85] mix-blend-difference text-white relative z-10">
+      <div className="flex h-dvh flex-col items-center justify-center px-8 lg:flex-row lg:px-16">
+        <Title className="relative z-10 text-6xl uppercase leading-[.85] text-white mix-blend-difference lg:text-9xl lg:leading-[.85]">
           <div className="overflow-hidden px-2">
             <span className="block">Next.js — </span>
           </div>
@@ -25,29 +25,29 @@ export default function HomePage() {
           </div>
         </Title>
 
-        <div className="relative z-0 lg:flex items-center">
+        <div className="relative z-0 items-center lg:flex">
           <Reveal>
             <Image
               src={demoImage}
               alt=""
               width={460}
               height={580}
-              className="rotate-[-7deg] lg:-translate-x-[4rem] -translate-y-[1.5rem] w-[220px] h-[280px] lg:w-[28rem] lg:h-[36rem] object-cover scale-[1.2]"
+              className="h-[280px] w-[220px] -translate-y-[1.5rem] rotate-[-7deg] scale-[1.2] object-cover lg:h-[36rem] lg:w-[28rem] lg:-translate-x-[4rem]"
               priority
             />
           </Reveal>
 
           <ButtonLink
             href="/demo"
-            className="relative lg:absolute right-0 -mt-12"
+            className="relative right-0 -mt-12 lg:absolute"
           >
             Navigate
           </ButtonLink>
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 mb-6 lg:mb-8 ml-8 lg:ml-16 z-50 text-gray-500 text-sm flex flex-col md:flex-row gap-3 md:gap-4 lg:items-center py-2 lg:py-3">
-        <span className="uppercase font-medium text-xs">Demo </span>
+      <div className="fixed bottom-0 left-0 z-50 mb-6 ml-8 flex flex-col gap-3 py-2 text-sm text-gray-500 md:flex-row md:gap-4 lg:mb-8 lg:ml-16 lg:items-center lg:py-3">
+        <span className="text-xs font-medium uppercase">Demo </span>
 
         <Link
           href="/demo"

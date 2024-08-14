@@ -1,34 +1,41 @@
 import {
   createContext,
-  Dispatch,
   ReactNode,
-  SetStateAction,
   use,
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
-} from 'react';
-import delegate, { DelegateEvent } from 'delegate-it';
-import { usePathname, useRouter } from 'next/navigation';
+} from "react";
+import delegate, { DelegateEvent } from "delegate-it";
+import { usePathname, useRouter } from "next/navigation";
+import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-export type Stage = 'leaving' | 'entering' | 'none';
+export type Stage = "leaving" | "entering" | "none";
 
 export interface TransitionRouterProps {
   children: ReactNode;
-  leave?: (n: () => void, f: string, t: string) => void;
-  enter?: (n: () => void) => void;
+  leave?: (n: () => void, f: string, t: string) => (() => void) | void;
+  enter?: (n: () => void) => (() => void) | void;
   auto?: boolean;
 }
 
+export type NavigateProps = (
+  href: string,
+  pathname: string,
+  method?: "push" | "replace",
+  options?: NavigateOptions
+) => void;
+
 const TransitionRouterContext = createContext<{
   stage: Stage;
-  setStage: Dispatch<SetStateAction<Stage>>;
-  leave: TransitionRouterProps['leave'];
+  navigate: NavigateProps;
+  isReady: boolean;
 }>({
-  stage: 'none',
-  setStage: () => {},
-  leave: () => {},
+  stage: "none",
+  navigate: () => {},
+  isReady: false,
 });
 
 export function TransitionRouter({
@@ -40,34 +47,48 @@ export function TransitionRouter({
   const router = useRouter();
   const pathname = usePathname();
 
-  const [stage, setStage] = useState<Stage>('none');
+  const [stage, setStage] = useState<Stage>("none");
+
+  const leaveRef = useRef<(() => void) | void | null>(null);
+  const enterRef = useRef<(() => void) | void | null>(null);
+
+  const navigate: NavigateProps = useCallback(
+    (href, pathname, method = "push", options) => {
+      setStage("leaving");
+      leaveRef.current = leave(
+        () => router[method](href, options),
+        pathname,
+        href
+      );
+    },
+    [leave, router]
+  );
 
   const handleClick = useCallback(
     (event: DelegateEvent) => {
       const anchor = event.delegateTarget as HTMLAnchorElement;
-      const href = anchor?.getAttribute('href');
-      const ignore = anchor?.getAttribute('data-transition-ignore');
+      const href = anchor?.getAttribute("href");
+      const ignore = anchor?.getAttribute("data-transition-ignore");
 
       if (
         !ignore &&
-        href?.startsWith('/') &&
+        href?.startsWith("/") &&
         href !== pathname &&
-        anchor.target !== '_blank' &&
-        !href.includes('#')
+        anchor.target !== "_blank" &&
+        !href.includes("#")
       ) {
         event.preventDefault();
-        setStage('leaving');
-        leave(() => router.push(href), pathname, href);
+        navigate(href, pathname);
       }
     },
-    [router, pathname, leave]
+    [navigate, pathname]
   );
 
   useEffect(() => {
     if (!auto) return;
 
     const controller = new AbortController();
-    delegate('a[href]', 'click', handleClick, { signal: controller.signal });
+    delegate("a[href]", "click", handleClick, { signal: controller.signal });
 
     return () => {
       controller.abort();
@@ -75,26 +96,31 @@ export function TransitionRouter({
   }, [auto, handleClick]);
 
   useEffect(() => {
-    if (stage === 'entering') {
-      enter(() => {
-        setStage('none');
+    if (stage === "entering") {
+      if (typeof leaveRef.current === "function") leaveRef.current();
+      leaveRef.current = null;
+
+      enterRef.current = enter(() => {
+        setStage("none");
       });
     }
   }, [stage, enter]);
 
   useEffect(() => {
     return () => {
-      if (stage === 'leaving') {
-        setStage('entering');
+      if (stage === "leaving") {
+        if (typeof enterRef.current === "function") enterRef.current();
+        enterRef.current = null;
+
+        setStage("entering");
       }
     };
   }, [stage, pathname]);
 
-  useEffect(() => {
-    document.documentElement.dataset.stage = stage;
-  }, [stage]);
-
-  const value = useMemo(() => ({ stage, setStage, leave }), [stage, leave]);
+  const value = useMemo(
+    () => ({ stage, navigate, isReady: stage !== "entering" }),
+    [stage, navigate]
+  );
 
   return (
     <TransitionRouterContext.Provider value={value}>

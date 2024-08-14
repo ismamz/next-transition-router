@@ -9,9 +9,7 @@ export function Reveal({
   ...rest
 }: { children: React.ReactNode } & ComponentProps<"div">) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const { stage } = useTransitionState();
-
-  const isReady = stage !== "entering";
+  const { isReady } = useTransitionState();
 
   useEffect(() => {
     if (isReady) {

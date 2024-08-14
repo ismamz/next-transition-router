@@ -7,8 +7,8 @@ import demoImage from "@/assets/image.jpg";
 export default function DemoPage() {
   return (
     <>
-      <div className="px-8 lg:px-16 lg:max-w-[75%] mx-auto h-dvh flex items-center flex-col justify-center">
-        <Title className="uppercase font-normal text-[3.75rem] md:text-[8rem] lg:text-[12rem] relative z-20 mix-blend-color-dodge leading-[.85] text-center text-[tomato] mb-8 mt-64 lg:mt-0">
+      <div className="mx-auto flex h-dvh flex-col items-center justify-center px-8 lg:max-w-[75%] lg:px-16">
+        <Title className="relative z-20 mb-8 mt-64 text-center text-[3.75rem] font-normal uppercase leading-[.85] text-[tomato] mix-blend-color-dodge md:text-[8rem] lg:mt-0 lg:text-[12rem]">
           <div className="overflow-hidden px-2">
             <span className="block">Make the</span>
           </div>
@@ -29,7 +29,7 @@ export default function DemoPage() {
       <Reveal className="absolute inset-0 z-0 overflow-hidden">
         <Image
           src={demoImage}
-          className="w-full h-full object-cover object-bottom scale-[2]"
+          className="h-full w-full scale-[2] object-cover object-bottom"
           alt=""
           priority
         />

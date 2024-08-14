@@ -2,17 +2,17 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <header className="w-full flex items-center justify-between px-8 lg:px-16 py-6 lg:py-8 fixed top-0 left-0 z-30">
+    <header className="fixed left-0 top-0 z-30 flex w-full items-center justify-between px-8 py-6 lg:px-16 lg:py-8">
       <Link
         href="/"
-        className="text-black hover:opacity-75 transition-opacity duration-300"
+        className="text-black transition-opacity duration-300 hover:opacity-75"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="70"
           height="46"
           viewBox="0 0 70 46"
-          className="w-[3.5rem] h-[2.3rem]"
+          className="h-[2.3rem] w-[3.5rem]"
           fill="none"
         >
           <path
@@ -34,7 +34,7 @@ export function Header() {
       <Link
         href="https://github.com/ismamz/next-transition-router"
         target="_blank"
-        className="flex items-center gap-3 text-lg lg:text-xl uppercase font-medium no-underline text-black hover:opacity-75 transition-opacity duration-300"
+        className="flex items-center gap-3 text-lg font-medium uppercase text-black no-underline transition-opacity duration-300 hover:opacity-75 lg:text-xl"
         title="GitHub repository and documentation"
       >
         <svg

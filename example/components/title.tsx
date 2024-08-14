@@ -12,10 +12,8 @@ export function Title({
   children: React.ReactNode;
   className: string;
 }) {
-  const { stage } = useTransitionState();
+  const { isReady } = useTransitionState();
   const ref = useRef<HTMLHeadingElement | null>(null);
-
-  const isReady = stage !== "entering";
 
   useLayoutEffect(() => {
     if (isReady) {

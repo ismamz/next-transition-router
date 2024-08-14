@@ -10,7 +10,7 @@ export function Programmatic() {
       <button
         className="text-left underline underline-offset-4"
         onClick={() => {
-          alert("You're about to go to /demo");
+          alert("Do something before navigating away");
           router.push("/demo");
         }}
       >
@@ -19,7 +19,7 @@ export function Programmatic() {
       <button
         className="text-left underline underline-offset-4"
         onClick={() => {
-          alert("You're about to go to /demo");
+          alert("Do something before navigating away");
           router.replace("/demo");
         }}
       >

@@ -90,21 +90,17 @@ export function Example() {
 }
 ```
 
-> You can use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts with the default `Link` component from Next.js.
+> Use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts.
 
 #### `auto` enabled
 
-When `auto` is enabled, the `TransitionRouter` intercepts click events on internal links, except anchor links, and triggers page transitions.
+When `auto` is enabled, the `TransitionRouter` intercepts click events on internal links, except anchor links, and triggers page transitions. In this case you don't need to use the custom `Link` component.
 
-In this case you don't need to use the custom `Link` component.
-
-If you set `auto` to `true`, but you want to ignore a link, simply add the `data-transition-ignore` attribute to the link.
+To ignore a link in this mode, simply add the `data-transition-ignore` attribute to the link.
 
 ### Programmatic navigation
 
-Use the `useTransitionRouter` hook to seamlessly manage navigation (`push` and `replace`) while incorporating page transitions.
-
-This hook functions identically to the [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) hook, offering a familiar API with added support for transitions.
+Use the `useTransitionRouter` hook to seamlessly manage navigation (`push` and `replace`) while incorporating page transitions. It works identically to the [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) hook, offering a familiar API with added support for transitions.
 
 ```tsx
 'use client';
@@ -133,6 +129,8 @@ Use the `useTransitionState` hook to determine the current stage of the transiti
 
 The values of `stage` can be one of these: `'entering' | 'leaving' | 'none'`.
 
+Aditionally, you have the `isReady` state (`boolean`).
+
 ```tsx
 'use client';
 
@@ -150,16 +148,15 @@ export function Example() {
     </div>
   );
 }
-
 ```
 
 This is useful, for example, if you want to trigger a reveal animation after the page transition ends.
 
-In this case, you have a special `isReady` (`boolean`) state that indicates that the new page is ready to be revealed.
-
 ### Transition cleanups
 
-The `TransitionRouter` uses references to store and manage cleanup functions for both `leave` and `enter` animations, ensuring smooth transitions without memory leaks. This is particularly useful when animations need to be cancelled or adjusted based on the current stage.
+`TransitionRouter` manages cleanup functions for both `leave` and `enter` animations, ensuring smooth transitions without memory leaks.
+
+Similar to React's `useEffect` hook, you should return a cleanup function for `leave` and `enter` callbacks.
 
 Here's an example using GSAP:
 
@@ -195,6 +192,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
 | `leave`    | `function` | `next => next()` | Function to handle the leaving animation          |
 | `enter`    | `function` | `next => next()` | Function to handle the entering animation         |
 | `auto`     | `boolean`  | `false`          | Flag to enable/disable auto-detection of links    |
+
+### `useTransitionState`
+
+| Property  | Type                              | Description                                        |
+|-----------|-----------------------------------|----------------------------------------------------|
+| `stage`   | `'entering' | 'leaving' | 'none'` | Indicates the current stage of the transition.     |
+| `isReady` | `boolean`                         | Indicates if the new page is ready to be animated. |
 
 ## License
 

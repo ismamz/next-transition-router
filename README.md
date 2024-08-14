@@ -100,7 +100,7 @@ To ignore a link in this mode, simply add the `data-transition-ignore` attribute
 
 ### Programmatic navigation
 
-Use the `useTransitionRouter` hook to seamlessly manage navigation (`push` and `replace`) while incorporating page transitions. It works identically to the [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) hook, offering a familiar API with added support for transitions.
+Use the `useTransitionRouter` hook to seamlessly manage navigation (`push` and `replace`). It works identically to the [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) hook, offering a familiar API with added support for transitions.
 
 ```tsx
 'use client';

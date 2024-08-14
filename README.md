@@ -195,10 +195,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 ### `useTransitionState`
 
-| Property  | Type                              | Description                                        |
-|-----------|-----------------------------------|----------------------------------------------------|
-| `stage`   | `'entering' | 'leaving' | 'none'` | Indicates the current stage of the transition.     |
-| `isReady` | `boolean`                         | Indicates if the new page is ready to be animated. |
+| Property  | Type                                | Description                                        |
+|-----------|-------------------------------------|----------------------------------------------------|
+| `stage`   | `'entering' \| 'leaving' \| 'none'` | Indicates the current stage of the transition.     |
+| `isReady` | `boolean`                           | Indicates if the new page is ready to be animated. |
 
 ## License
 

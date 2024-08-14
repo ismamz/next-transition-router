@@ -74,24 +74,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 After that, you should import that component in the layout component (e.g.: `app/layout.tsx`).
 
-### Auto-detection or custom `Link` component
+### Handle links (custom `Link` component vs auto-detection)
 
-When `auto` is enabled, the `TransitionRouter` intercepts click events on internal links and triggers page transitions. The router automatically ignores external links, anchor links, and links with the `data-transition-ignore` attribute.
+To determine how to handle links, `TransitionRouter` can receive an `auto` prop (`boolean`).
 
+#### `auto` disabled (default)
 
-To enable internal links auto-detection to perform transitions between pages, you must use the `auto` prop with the value `true`.
-
-```tsx
-<TransitionRouter auto={true}>
-  {children}
-</TransitionRouter>
-```
-
-With `auto` enabled, all internal links, except those with anchors or fragment identifiers, will trigger transitions.
-
-When `auto` is enabled, the `TransitionRouter` intercepts click events on internal links and triggers page transitions. The router automatically ignores external links, anchor links, and links with the `data-transition-ignore` attribute.
-
-By default, the `auto` option is set to `false`; if you prefer it this way, you should use the custom `Link` component instead of the native `Link` component from Next.js.
+Use the custom `Link` component instead of the native [`Link` component from Next.js](https://nextjs.org/docs/app/api-reference/components/link) to trigger transitions.
 
 ```tsx
 import { Link } from 'next-transition-router';
@@ -103,17 +92,13 @@ export function Example() {
 
 > You can use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts with the default `Link` component from Next.js.
 
-### Ignore a link when use auto-detection
+#### `auto` enabled
 
-If you set `auto` to `true`, but you want to ignore a link in particular, simply add the `data-transition-ignore` attribute:
+When `auto` is enabled, the `TransitionRouter` intercepts click events on internal links, except anchor links, and triggers page transitions.
 
-```html
-<Link href="/about" data-transition-ignore>
-  Ignore transition for this link
-</Link>
-```
+In this case you don't need to use the custom `Link` component.
 
-Be aware that this is a custom data attribute, and not a property of the [built-in Next.js Link component](https://nextjs.org/docs/app/api-reference/components/link).
+If you set `auto` to `true`, but you want to ignore a link, simply add the `data-transition-ignore` attribute to the link.
 
 ### Programmatic navigation
 

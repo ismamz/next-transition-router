@@ -11,6 +11,8 @@ export function Header() {
           xmlns="http://www.w3.org/2000/svg"
           width="70"
           height="46"
+          viewBox="0 0 70 46"
+          className="w-[3.5rem] h-[2.3rem]"
           fill="none"
         >
           <path

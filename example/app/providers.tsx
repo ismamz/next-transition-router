@@ -1,107 +1,88 @@
-'use client';
+"use client";
 
-import { useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { TransitionRouter } from 'next-transition-router';
-import { DebugStage } from './_components/debug';
-
-const routes = {
-  '/': 'Home',
-  '/about': 'About',
-};
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { TransitionRouter } from "next-transition-router";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const mainRef = useRef<HTMLElement | null>(null);
-  const layerRef = useRef<HTMLDivElement | null>(null);
-
-  const [nextPageName, setNextPageName] = useState('');
+  const firstLayer = useRef<HTMLDivElement | null>(null);
+  const secondLayer = useRef<HTMLDivElement | null>(null);
 
   return (
     <TransitionRouter
+      auto={true}
       leave={(next, from, to) => {
         console.log({ from, to });
 
-        // Target the layer element and set its content with the next route name
-        // layerRef.current.innerHTML = routes[to];
-        // Or use the state to set the next route name
-        setNextPageName(routes[to]);
+        const tl = gsap
+          .timeline({
+            onComplete: next,
+          })
+          .fromTo(
+            firstLayer.current,
+            { y: "100%" },
+            {
+              y: 0,
+              duration: 0.5,
+              ease: "circ.inOut",
+            },
+          )
+          .fromTo(
+            secondLayer.current,
+            {
+              y: "100%",
+            },
+            {
+              y: 0,
+              duration: 0.5,
+              ease: "circ.inOut",
+            },
+            "<50%",
+          );
 
-        gsap.context(() => {
-          gsap
-            .timeline({
-              onComplete: next,
-            })
-            .to(mainRef.current, {
-              autoAlpha: 0,
-              startAt: { autoAlpha: 1 },
-              duration: 0.6,
-              ease: 'power3.inOut',
-            })
-            .to(
-              layerRef.current,
-              {
-                y: 0,
-                startAt: { y: '100%' },
-                duration: 0.6,
-                ease: 'circ.inOut',
-              },
-              '<25%'
-            )
-            .fromTo(
-              layerRef.current.querySelector('span'),
-              { autoAlpha: 0 },
-              {
-                autoAlpha: 1,
-                duration: 0.6,
-                ease: 'power3.inOut',
-              },
-              '<50%'
-            );
-        });
+        return () => {
+          tl.kill();
+        };
       }}
-      enter={next => {
-        gsap.context(() => {
-          gsap
-            .timeline({
-              onComplete: next,
-              delay: 0.4, // how much time the layer will stay visible before animating out
-            })
-            .fromTo(
-              layerRef.current.querySelector('span'),
-              { autoAlpha: 1 },
-              {
-                autoAlpha: 0,
-                duration: 0.6,
-                ease: 'power3.inOut',
-              }
-            )
-            .to(
-              layerRef.current,
-              {
-                y: '-100%',
-                duration: 0.6,
-                ease: 'circ.inOut',
-              },
-              '<50%'
-            )
-            .fromTo(
-              mainRef.current,
-              { autoAlpha: 0 },
-              { autoAlpha: 1, duration: 0.6, ease: 'power3.inOut' },
-              '<25%'
-            );
-        });
+      enter={(next) => {
+        const tl = gsap
+          .timeline()
+          .fromTo(
+            secondLayer.current,
+            { y: 0 },
+            {
+              y: "-100%",
+              duration: 0.5,
+              ease: "circ.inOut",
+            },
+          )
+          .fromTo(
+            firstLayer.current,
+            { y: 0 },
+            {
+              y: "-100%",
+              duration: 0.5,
+              ease: "circ.inOut",
+            },
+            "<50%",
+          )
+          .call(next, undefined, "<50%");
+
+        return () => {
+          tl.kill();
+        };
       }}
     >
-      <main ref={mainRef}>{children}</main>
+      <main>{children}</main>
+
       <div
-        ref={layerRef}
-        className="layer"
-        style={{ transform: 'translateY(100%)' }}
-      >
-        <span style={{ visibility: 'hidden' }}>{nextPageName}</span>
-      </div>
-      <DebugStage />
+        ref={firstLayer}
+        className="fixed inset-0 z-50 translate-y-full bg-primary"
+      />
+      <div
+        ref={secondLayer}
+        className="fixed inset-0 z-50 translate-y-full bg-foreground"
+      />
     </TransitionRouter>
   );
 }

@@ -2,7 +2,7 @@
   "name": "next-transition-router",
   "version": "0.1.0",
   "type": "module",
-  "description": "Create animated transitions between pages using Next.js App Router.",
+  "description": "Easily add animated transitions between pages using Next.js App Router.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [

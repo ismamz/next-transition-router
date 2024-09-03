@@ -1,11 +1,11 @@
 <div align="center">
-  <img src="/example/app/icon.svg" alt="next-transition-router" width="100" height="100" />
+  <img src="https://raw.githubusercontent.com/ismamz/next-transition-router/main/example/app/icon.svg" alt="next-transition-router" width="100" height="100" />
   <h1>next-transition-router</h1>
 </div>
 
 Easily add animated transitions between pages using Next.js App Router and your favorite animation library.
 
-[**See it in action**](https://next-transition-router.vercel.app), and take a look at the [example source code](/example) that uses [GSAP](https://gsap.com/resources/React/).
+[**Live Demo using GSAP**](https://next-transition-router.vercel.app) (source code: [/example](/example)).
 
 ## Disclaimer
 

@@ -5,7 +5,7 @@
 
 Easily add animated transitions between pages using Next.js App Router and your favorite animation library.
 
-[**Live Demo using GSAP**](https://next-transition-router.vercel.app) (source code: [/example](/example)).
+[**Live Demo using GSAP**](https://next-transition-router.vercel.app){:target="_blank"} (source code: [/example](/example)).
 
 ## Disclaimer
 

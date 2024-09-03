@@ -14,17 +14,23 @@ import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-
 
 export type Stage = "leaving" | "entering" | "none";
 
+export type TransitionCallback = (
+  next: () => void,
+  from?: string,
+  to?: string
+) => Promise<(() => void) | void> | ((() => void) | void);
+
 export interface TransitionRouterProps {
   children: ReactNode;
-  leave?: (n: () => void, f: string, t: string) => (() => void) | void;
-  enter?: (n: () => void) => (() => void) | void;
+  leave?: TransitionCallback;
+  enter?: TransitionCallback;
   auto?: boolean;
 }
 
 export type NavigateProps = (
   href: string,
   pathname: string,
-  method?: "push" | "replace",
+  method?: "push" | "replace" | "back",
   options?: NavigateOptions
 ) => void;
 
@@ -40,8 +46,8 @@ const TransitionRouterContext = createContext<{
 
 export function TransitionRouter({
   children,
-  leave = next => next(),
-  enter = next => next(),
+  leave = async next => next(),
+  enter = async next => next(),
   auto = false,
 }: TransitionRouterProps) {
   const router = useRouter();
@@ -53,13 +59,12 @@ export function TransitionRouter({
   const enterRef = useRef<(() => void) | void | null>(null);
 
   const navigate: NavigateProps = useCallback(
-    (href, pathname, method = "push", options) => {
+    async (href, pathname, method = "push", options) => {
       setStage("leaving");
-      leaveRef.current = leave(
-        () => router[method](href, options),
-        pathname,
-        href
-      );
+
+      let callback = () => router[method](href, options);
+      if (method === "back") callback = () => router.back();
+      leaveRef.current = await leave(callback, pathname, href);
     },
     [leave, router]
   );
@@ -100,9 +105,11 @@ export function TransitionRouter({
       if (typeof leaveRef.current === "function") leaveRef.current();
       leaveRef.current = null;
 
-      enterRef.current = enter(() => {
-        setStage("none");
-      });
+      const runEnter = async () => {
+        enterRef.current = await Promise.resolve(enter(() => setStage("none")));
+      };
+
+      runEnter();
     }
   }, [stage, enter]);
 

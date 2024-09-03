@@ -12,22 +12,27 @@ export function useTransitionRouter() {
     (href: string, options?: NavigateOptions) => {
       navigate(href, pathname, "push", options);
     },
-    [pathname]
+    [pathname, navigate]
   );
 
   const replace = useCallback(
     (href: string, options?: NavigateOptions) => {
       navigate(href, pathname, "replace", options);
     },
-    [pathname]
+    [pathname, navigate]
   );
+
+  const back = useCallback(() => {
+    navigate(undefined, pathname, "back");
+  }, [pathname, navigate]);
 
   return useMemo(
     () => ({
       ...router,
       push,
       replace,
+      back,
     }),
-    [router, push, replace]
+    [router, push, replace, back]
   );
 }

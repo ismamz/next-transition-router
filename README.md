@@ -52,8 +52,8 @@ import { TransitionRouter } from "next-transition-router";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <TransitionRouter
-      leave={(next, from, to) => {
-        someAnimation(from, to).then(next);
+      leave={(next) => {
+        someAnimation().then(next);
       }}
       enter={(next) => {
         anotherAnimation().then(next);
@@ -95,6 +95,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
     </TransitionRouter>
   );
 }
+```
+
+#### `from` and `to` parameters for `leave` callback
+
+The `leave` callback receives the `from` and `to` parameters, which are strings with the previous and next page paths.
+
+```tsx
+const onLeave = (next, from, to) => {
+  someAnimation(from, to).then(next);
+};
 ```
 
 ### Handling links (custom `Link` component vs auto-detection)

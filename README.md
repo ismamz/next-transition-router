@@ -75,9 +75,9 @@ After that, you should import that component in the layout component (e.g.: `app
 The `leave` and `enter` callbacks support async functions.
 
 ```tsx
-'use client';
+"use client";
 
-import { TransitionRouter } from 'next-transition-router';
+import { TransitionRouter } from "next-transition-router";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -99,13 +99,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 #### `from` and `to` parameters for `leave` callback
 
-The `leave` callback receives the `from` and `to` parameters, which are strings with the previous and next page paths.
+The `leave` callback receives the `from` and `to` parameters, which are strings with the previous and next page paths. Useful if you want to animate the transition conditionally based on the page.
 
 ```tsx
 const onLeave = (next, from, to) => {
   someAnimation(from, to).then(next);
 };
 ```
+
+> [!NOTE]
+> When using `router.back()` method, the `to` parameter will be undefined.
 
 ### Handling links (custom `Link` component vs auto-detection)
 

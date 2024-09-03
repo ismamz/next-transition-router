@@ -70,6 +70,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
+> [!NOTE]
 > It should be a client component because you have to pass DOM functions as props to the provider.
 
 After that, you should import that component in the layout component (e.g.: `app/layout.tsx`).
@@ -90,6 +91,7 @@ export function Example() {
 }
 ```
 
+> [!TIP]
 > Use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts.
 
 #### `auto` enabled

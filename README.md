@@ -16,8 +16,8 @@ This package may not cover every use case. If you require a specific scenario, p
 
 ## Features
 
-- Automatically detect internal links to handle page transitions (optional).
-- Use a custom `Link` component to manually handle page transitions.
+- Automatically detect internal links to handle page transitions ([optional `auto` flag](#auto-enabled)).
+- Use a custom `Link` component to manually handle page transitions ([when `auto` is disabled](#handle-links-custom-link-component-vs-auto-detection)).
 - Exclusively to be used with [Next.js App Router](https://nextjs.org/docs/app).
 - Quickly add animated transitions between pages using JavaScript or CSS.
 - Integrate seamlessly with [GSAP](https://gsap.com/resources/React/) or any other animation library of your choice.

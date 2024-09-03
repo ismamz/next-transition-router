@@ -7,13 +7,6 @@ Easily add animated transitions between pages using Next.js App Router and your 
 
 [**Live Demo using GSAP**](https://next-transition-router.vercel.app) (source code: [/example](/example)).
 
-## Disclaimer
-
-> [!WARNING]
-> This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
-
-This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
-
 ## Features
 
 - Automatically detect internal links to handle page transitions ([optional `auto` flag](#auto-enabled)).
@@ -25,6 +18,13 @@ This package may not cover every use case. If you require a specific scenario, p
 - Focused on customizable animations, not targeting the [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API).
 
 If you're looking to use the View Transitions API, check [next-view-transitions](https://github.com/shuding/next-view-transitions).
+
+## Disclaimer
+
+> [!WARNING]
+> This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
+
+This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
 
 ## Installation
 

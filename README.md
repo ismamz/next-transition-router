@@ -137,7 +137,9 @@ To ignore a link in this mode, simply add the `data-transition-ignore` attribute
 
 ### Programmatic navigation
 
-Use the `useTransitionRouter` hook to manage navigation (`push`, `replace`, `back`). It's similar to [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) with added transition support.
+Use the `useTransitionRouter` hook to manage navigation (`push`, `replace`, `back`).
+
+It's similar to [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) with added transition support.
 
 ```tsx
 "use client";
@@ -181,10 +183,8 @@ export function Example() {
 
   return (
     <div>
-      {stage === "leaving" && <div>Animating out…</div>}
-      {stage === "entering" && <div>Animating in…</div>}
-      {stage === "none" && <div>Nothing is happening</div>}
-      {isReady && <div>New page fully loaded!</div>}
+      <p>Current stage: {stage}</p>
+      <p>Page ready: {isReady ? "Yes" : "No"}</p>
     </div>
   );
 }
@@ -198,7 +198,7 @@ This is useful, for example, if you want to trigger a reveal animation after the
 
 Similar to React's `useEffect` hook, you can return a cleanup function to cancel the animation.
 
-#### Minimal example using GSAP:
+#### Minimal example using GSAP
 
 ```tsx
 "use client";

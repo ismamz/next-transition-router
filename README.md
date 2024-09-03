@@ -108,7 +108,7 @@ const onLeave = (next, from, to) => {
 ```
 
 > [!NOTE]
-> When using `router.back()` method, the `to` parameter will be undefined.
+> When using `router.back()` method, the `to` parameter will be undefined. See [programmatic navigation](#programmatic-navigation).
 
 ### Handling links (custom `Link` component vs auto-detection)
 
@@ -135,18 +135,9 @@ When `auto` is enabled, the `TransitionRouter` intercepts click events on intern
 
 To ignore a link in this mode, simply add the `data-transition-ignore` attribute to the link.
 
-*To sum up, here's a quick summary of the differences between the two modes:*
-
-| Feature    | `auto` enabled | `auto` disabled |
-| ---------- | -------------- | --------------- |
-| Usage      | Intercepts click events on internal links and triggers page transitions. | Use a custom `Link` component to manually handle page transitions. |
-| Links      | Automatically detects internal links and triggers transitions. | Use the custom `Link` component to manually handle page transitions. |
-| Attributes | `data-transition-ignore` attribute to ignore links. | No additional attributes needed. |
-
-
 ### Programmatic navigation
 
-Use the `useTransitionRouter` hook to seamlessly manage navigation (`push` and `replace`). It works identically to the [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) hook, offering a familiar API with added support for transitions.
+Use the `useTransitionRouter` hook to manage navigation (`push`, `replace`, `back`). It's similar to [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) with added transition support.
 
 ```tsx
 "use client";
@@ -169,11 +160,14 @@ export function Programmatic() {
 }
 ```
 
+> [!IMPORTANT]
+> Back and forwards browser navigation doesn't trigger page transitions, and [this is intentional](https://github.com/ismamz/next-transition-router/issues/2).
+
 ### Transition state
 
 Use the `useTransitionState` hook to determine the current stage of the transition.
 
-The values of `stage` can be one of these: `'entering' | 'leaving' | 'none'`.
+Possible `stage` values: `'entering' | 'leaving' | 'none'`.
 
 Aditionally, you have the `isReady` state (`boolean`).
 
@@ -200,11 +194,11 @@ This is useful, for example, if you want to trigger a reveal animation after the
 
 ### Cleanup
 
-`TransitionRouter` manages cleanup functions for both `leave` and `enter` animations, ensuring smooth transitions without memory leaks.
+`TransitionRouter` manages cleanup functions for `leave` and `enter` callbacks, to prevent memory leaks.
 
-Similar to React's `useEffect` hook, you should return a cleanup function for `leave` and `enter` callbacks.
+Similar to React's `useEffect` hook, you can return a cleanup function to cancel the animation.
 
-Here's a minimal example using GSAP:
+#### Minimal example using GSAP:
 
 ```tsx
 "use client";

@@ -47,7 +47,6 @@ Create a client component (e.g.: `app/providers.tsx`) to use the `TransitionRout
 ```tsx
 "use client";
 
-import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -205,6 +204,7 @@ Similar to React's `useEffect` hook, you can return a cleanup function to cancel
 ```tsx
 "use client";
 
+import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 
 export function Providers({ children }: { children: React.ReactNode }) {

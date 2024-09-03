@@ -45,22 +45,18 @@ npm install next-transition-router
 Create a client component (e.g.: `app/providers.tsx`) to use the `TransitionRouter` provider:
 
 ```tsx
-'use client';
+"use client";
 
-import { TransitionRouter } from 'next-transition-router';
+import { TransitionRouter } from "next-transition-router";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <TransitionRouter
-      auto={true} // all internal links will trigger transitions
       leave={(next, from, to) => {
-        // animate current page before navigating away
-        // when the animation ends, call the `next` function
-        // extra: `from` and `to` are the current and next page routes
+        someAnimation(from, to).then(next);
       }}
       enter={(next) => {
-        // perform an entry animation to reveal the new page that is ready
-        // when the animation ends, call the `next` function
+        anotherAnimation().then(next);
       }}
     >
       {children}
@@ -110,7 +106,7 @@ To determine how to handle links, `TransitionRouter` can receive an `auto` prop 
 Use the custom `Link` component instead of the native [`Link` component from Next.js](https://nextjs.org/docs/app/api-reference/components/link) to trigger transitions.
 
 ```tsx
-import { Link } from 'next-transition-router';
+import { Link } from "next-transition-router";
 
 export function Example() {
   return <Link href="/about">About</Link>;
@@ -118,7 +114,7 @@ export function Example() {
 ```
 
 > [!TIP]
-> Use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts.
+> Use `import { Link as TransitionLink } from "next-transition-router"` to avoid naming conflicts.
 
 #### `auto` enabled
 
@@ -140,9 +136,9 @@ To ignore a link in this mode, simply add the `data-transition-ignore` attribute
 Use the `useTransitionRouter` hook to seamlessly manage navigation (`push` and `replace`). It works identically to the [Next.js `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router) hook, offering a familiar API with added support for transitions.
 
 ```tsx
-'use client';
+"use client";
 
-import { useTransitionRouter } from 'next-transition-router';
+import { useTransitionRouter } from "next-transition-router";
 
 export function Programmatic() {
   const router = useTransitionRouter();
@@ -151,7 +147,7 @@ export function Programmatic() {
     <button
       onClick={() => {
         alert("Do something before navigating away");
-        router.push('/about');
+        router.push("/about");
       }}
     >
       Go to /about
@@ -169,18 +165,18 @@ The values of `stage` can be one of these: `'entering' | 'leaving' | 'none'`.
 Aditionally, you have the `isReady` state (`boolean`).
 
 ```tsx
-'use client';
+"use client";
 
-import { useTransitionState } from 'next-transition-router';
+import { useTransitionState } from "next-transition-router";
 
 export function Example() {
   const { stage, isReady } = useTransitionState();
 
   return (
     <div>
-      {stage === 'leaving' && <div>Animating out…</div>}
-      {stage === 'entering' && <div>Animating in…</div>}
-      {stage === 'none' && <div>Nothing is happening</div>}
+      {stage === "leaving" && <div>Animating out…</div>}
+      {stage === "entering" && <div>Animating in…</div>}
+      {stage === "none" && <div>Nothing is happening</div>}
       {isReady && <div>New page fully loaded!</div>}
     </div>
   );
@@ -195,22 +191,22 @@ This is useful, for example, if you want to trigger a reveal animation after the
 
 Similar to React's `useEffect` hook, you should return a cleanup function for `leave` and `enter` callbacks.
 
-Here's an example using GSAP:
+Here's a minimal example using GSAP:
 
 ```tsx
-'use client';
+"use client";
 
-import { TransitionRouter } from 'next-transition-router';
+import { TransitionRouter } from "next-transition-router";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <TransitionRouter
       leave={(next) => {
-        const tween = gsap.fromTo('main', { autoAlpha: 1 }, { autoAlpha: 0, onComplete: next });
+        const tween = gsap.fromTo("main", { autoAlpha: 1 }, { autoAlpha: 0, onComplete: next });
         return () => tween.kill();
       }}
       enter={(next) => {
-        const tween = gsap.fromTo('main', { autoAlpha: 0 }, { autoAlpha: 1, onComplete: next });
+        const tween = gsap.fromTo("main", { autoAlpha: 0 }, { autoAlpha: 1, onComplete: next });
         return () => tween.kill();
       }}
     >

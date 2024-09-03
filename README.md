@@ -76,6 +76,34 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 After that, you should import that component in the layout component (e.g.: `app/layout.tsx`).
 
+
+### Async Callbacks
+
+The `leave` and `enter` callbacks support async functions.
+
+```tsx
+'use client';
+
+import { TransitionRouter } from 'next-transition-router';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <TransitionRouter
+      leave={async (next) => {
+        await someAsyncAnimation();
+        next();
+      }}
+      enter={async (next) => {
+        await anotherAsyncAnimation();
+        next();
+      }}
+    >
+      {children}
+    </TransitionRouter>
+  );
+}
+```
+
 ### Handle links (custom `Link` component vs auto-detection)
 
 To determine how to handle links, `TransitionRouter` can receive an `auto` prop (`boolean`).

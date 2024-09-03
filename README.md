@@ -163,7 +163,7 @@ export function Programmatic() {
 ```
 
 > [!IMPORTANT]
-> Back and forwards browser navigation doesn't trigger page transitions, and [this is intentional](https://github.com/ismamz/next-transition-router/issues/2).
+> Back and Forward browser navigation doesn't trigger page transitions, and [this is intentional](https://github.com/ismamz/next-transition-router/issues/2).
 
 ### Transition state
 
@@ -190,7 +190,8 @@ export function Example() {
 }
 ```
 
-This is useful, for example, if you want to trigger a reveal animation after the page transition ends.
+> [!TIP]
+> This is useful, for example, if you want to trigger a reveal animation after the page transition ends.
 
 ### Cleanup
 

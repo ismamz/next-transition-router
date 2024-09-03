@@ -9,7 +9,8 @@ Easily add animated transitions between pages using Next.js App Router and your 
 
 ## Disclaimer
 
-This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
+> [!WARNING]
+> This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
 
 This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
 
@@ -70,6 +71,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
+> [!NOTE]
 > It should be a client component because you have to pass DOM functions as props to the provider.
 
 After that, you should import that component in the layout component (e.g.: `app/layout.tsx`).
@@ -90,6 +92,7 @@ export function Example() {
 }
 ```
 
+> [!TIP]
 > Use `import { Link as TransitionLink } from 'next-transition-router'` to avoid naming conflicts.
 
 #### `auto` enabled

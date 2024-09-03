@@ -4,8 +4,9 @@ import { Link as TransitionLink } from "next-transition-router";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
 import { Programmatic } from "@/components/programmatic";
-import demoImage from "@/assets/image.jpg";
 import { Reveal } from "@/components/reveal";
+import { Back } from "@/components/back";
+import demoImage from "@/assets/image.jpg";
 
 export default function HomePage() {
   return (
@@ -66,6 +67,8 @@ export default function HomePage() {
         </TransitionLink>
 
         <Programmatic />
+
+        <Back />
       </div>
     </>
   );

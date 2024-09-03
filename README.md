@@ -19,12 +19,8 @@ Easily add animated transitions between pages using Next.js App Router and your 
 
 If you're looking to use the View Transitions API, check [next-view-transitions](https://github.com/shuding/next-view-transitions).
 
-## Disclaimer
-
 > [!WARNING]
 > This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
-
-This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
 
 ## Installation
 
@@ -44,7 +40,9 @@ npm install next-transition-router
 
 ## Usage
 
-Create a client component to use the `TransitionRouter` provider like this:
+### `TransitionRouter`
+
+Create a client component (e.g.: `app/providers.tsx`) to use the `TransitionRouter` provider:
 
 ```tsx
 'use client';
@@ -76,8 +74,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 After that, you should import that component in the layout component (e.g.: `app/layout.tsx`).
 
-
-### Async Callbacks
+#### Async Callbacks
 
 The `leave` and `enter` callbacks support async functions.
 
@@ -104,7 +101,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### Handle links (custom `Link` component vs auto-detection)
+### Handling links (custom `Link` component vs auto-detection)
 
 To determine how to handle links, `TransitionRouter` can receive an `auto` prop (`boolean`).
 
@@ -128,6 +125,15 @@ export function Example() {
 When `auto` is enabled, the `TransitionRouter` intercepts click events on internal links, except anchor links, and triggers page transitions. In this case you don't need to use the custom `Link` component.
 
 To ignore a link in this mode, simply add the `data-transition-ignore` attribute to the link.
+
+*To sum up, here's a quick summary of the differences between the two modes:*
+
+| Feature    | `auto` enabled | `auto` disabled |
+| ---------- | -------------- | --------------- |
+| Usage      | Intercepts click events on internal links and triggers page transitions. | Use a custom `Link` component to manually handle page transitions. |
+| Links      | Automatically detects internal links and triggers transitions. | Use the custom `Link` component to manually handle page transitions. |
+| Attributes | `data-transition-ignore` attribute to ignore links. | No additional attributes needed. |
+
 
 ### Programmatic navigation
 
@@ -183,7 +189,7 @@ export function Example() {
 
 This is useful, for example, if you want to trigger a reveal animation after the page transition ends.
 
-### Transition cleanups
+### Cleanup
 
 `TransitionRouter` manages cleanup functions for both `leave` and `enter` animations, ensuring smooth transitions without memory leaks.
 
@@ -230,6 +236,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
 |-----------|-------------------------------------|----------------------------------------------------|
 | `stage`   | `'entering' \| 'leaving' \| 'none'` | Indicates the current stage of the transition.     |
 | `isReady` | `boolean`                           | Indicates if the new page is ready to be animated. |
+
+## Disclaimer
+
+This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
 
 ## License
 

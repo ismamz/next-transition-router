@@ -13,7 +13,7 @@ Easily add animated transitions between pages using Next.js App Router and your 
 - Use a custom `Link` component to manually handle page transitions ([when `auto` is disabled](#handle-links-custom-link-component-vs-auto-detection)).
 - Exclusively to be used with [Next.js App Router](https://nextjs.org/docs/app).
 - Quickly add animated transitions between pages using JavaScript or CSS.
-- Integrate seamlessly with [GSAP](https://gsap.com/resources/React/) or any other animation library of your choice.
+- Integrate seamlessly with [GSAP](https://gsap.com/resources/React/) or any other animation library of your choice (see [minimal GSAP example](#cleanup)).
 - If JavaScript is disabled, the router's accessibility is not compromised.
 - Focused on customizable animations, not targeting the [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API).
 
@@ -47,6 +47,7 @@ Create a client component (e.g.: `app/providers.tsx`) to use the `TransitionRout
 ```tsx
 "use client";
 
+import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 
 export function Providers({ children }: { children: React.ReactNode }) {

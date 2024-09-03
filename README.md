@@ -9,7 +9,8 @@ Easily add animated transitions between pages using Next.js App Router and your 
 
 ## Disclaimer
 
-This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
+> [!WARNING]
+> This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
 
 This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
 

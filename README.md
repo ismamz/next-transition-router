@@ -39,6 +39,10 @@ yarn add next-transition-router
 npm install next-transition-router
 ```
 
+```sh
+bun add next-transition-router
+```
+
 ## Usage
 
 ### `TransitionRouter`

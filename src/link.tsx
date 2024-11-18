@@ -1,6 +1,7 @@
-import NextLink from 'next/link';
-import { useCallback } from 'react';
-import { useTransitionRouter } from './router';
+import NextLink from "next/link";
+import { useCallback } from "react";
+import { useTransitionRouter } from "./router";
+import { isModifiedEvent } from "./utils";
 
 export function Link(props: React.ComponentProps<typeof NextLink>) {
   const router = useTransitionRouter();
@@ -11,7 +12,7 @@ export function Link(props: React.ComponentProps<typeof NextLink>) {
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       if (props.onClick) props.onClick(e);
 
-      if (!e.defaultPrevented) {
+      if (!e.defaultPrevented && !isModifiedEvent(e)) {
         e.preventDefault();
         const navigate = replace ? router.replace : router.push;
         navigate((as || href) as string, { scroll: scroll ?? true });

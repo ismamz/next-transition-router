@@ -11,6 +11,7 @@ import {
 import delegate, { DelegateEvent } from "delegate-it";
 import { usePathname, useRouter } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { isModifiedEvent } from "./utils";
 
 export type Stage = "leaving" | "entering" | "none";
 
@@ -46,8 +47,8 @@ const TransitionRouterContext = createContext<{
 
 export function TransitionRouter({
   children,
-  leave = async next => next(),
-  enter = async next => next(),
+  leave = async (next) => next(),
+  enter = async (next) => next(),
   auto = false,
 }: TransitionRouterProps) {
   const router = useRouter();
@@ -70,7 +71,8 @@ export function TransitionRouter({
   );
 
   const handleClick = useCallback(
-    (event: DelegateEvent) => {
+    (event: DelegateEvent<MouseEvent>) => {
+      console.log(event);
       const anchor = event.delegateTarget as HTMLAnchorElement;
       const href = anchor?.getAttribute("href");
       const ignore = anchor?.getAttribute("data-transition-ignore");
@@ -80,7 +82,8 @@ export function TransitionRouter({
         href?.startsWith("/") &&
         href !== pathname &&
         anchor.target !== "_blank" &&
-        !href.includes("#")
+        !href.includes("#") &&
+        !isModifiedEvent(event)
       ) {
         event.preventDefault();
         navigate(href, pathname);

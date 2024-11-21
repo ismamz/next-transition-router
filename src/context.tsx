@@ -72,7 +72,6 @@ export function TransitionRouter({
 
   const handleClick = useCallback(
     (event: DelegateEvent<MouseEvent>) => {
-      console.log(event);
       const anchor = event.delegateTarget as HTMLAnchorElement;
       const href = anchor?.getAttribute("href");
       const ignore = anchor?.getAttribute("data-transition-ignore");

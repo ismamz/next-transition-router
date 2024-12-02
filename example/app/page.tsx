@@ -69,6 +69,10 @@ export default function HomePage() {
         <Programmatic />
 
         <Back />
+
+        <Link href="/demo#test" className="underline underline-offset-4">
+          Hash
+        </Link>
       </div>
     </>
   );

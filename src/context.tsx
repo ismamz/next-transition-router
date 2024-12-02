@@ -76,13 +76,16 @@ export function TransitionRouter({
       const href = anchor?.getAttribute("href");
       const ignore = anchor?.getAttribute("data-transition-ignore");
 
+      const url = href ? new URL(href, window.location.origin) : null;
+      const targetPathname = url?.pathname;
+
       if (
         !ignore &&
         href?.startsWith("/") &&
-        href !== pathname &&
+        targetPathname !== pathname &&
         anchor.target !== "_blank" &&
-        !href.includes("#") &&
-        !isModifiedEvent(event)
+        !isModifiedEvent(event) &&
+        !(href.includes("#") && targetPathname === pathname)
       ) {
         event.preventDefault();
         navigate(href, pathname);

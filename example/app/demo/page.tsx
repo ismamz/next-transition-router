@@ -3,6 +3,7 @@ import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
 import { Reveal } from "@/components/reveal";
 import demoImage from "@/assets/image.jpg";
+import Link from "next/link";
 
 export default function DemoPage() {
   return (
@@ -34,6 +35,14 @@ export default function DemoPage() {
           priority
         />
       </Reveal>
+
+      <div id="test" className="flex h-dvh items-center justify-center">
+        <p className="text-3xl">
+          <Link href="#" className="underline underline-offset-4">
+            top ↑
+          </Link>
+        </p>
+      </div>
     </>
   );
 }

@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import delegate, { DelegateEvent } from "delegate-it";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { isModifiedEvent } from "./utils";
 
@@ -53,6 +53,7 @@ export function TransitionRouter({
 }: TransitionRouterProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const [stage, setStage] = useState<Stage>("none");
 
@@ -71,6 +72,10 @@ export function TransitionRouter({
     [leave, router, stage]
   );
 
+  const fullPath = useMemo(() => {
+    return pathname + searchParams.toString();
+  }, [pathname, searchParams]);
+
   const handleClick = useCallback(
     (event: DelegateEvent<MouseEvent>) => {
       const anchor = event.delegateTarget as HTMLAnchorElement;
@@ -78,15 +83,19 @@ export function TransitionRouter({
       const ignore = anchor?.getAttribute("data-transition-ignore");
 
       const url = href ? new URL(href, window.location.origin) : null;
-      const targetPathname = url?.pathname;
+      const currentUrl = new URL(window.location.href);
+
+      const isSamePage =
+        url?.pathname === currentUrl.pathname &&
+        url?.search === currentUrl.search;
 
       if (
         !ignore &&
         href?.startsWith("/") &&
-        targetPathname !== pathname &&
+        !isSamePage &&
         anchor.target !== "_blank" &&
         !isModifiedEvent(event) &&
-        !(href.includes("#") && targetPathname === pathname)
+        !(href.includes("#") && url?.pathname === pathname)
       ) {
         event.preventDefault();
         navigate(href, pathname);
@@ -128,7 +137,7 @@ export function TransitionRouter({
         setStage("entering");
       }
     };
-  }, [stage, pathname]);
+  }, [stage, fullPath]);
 
   const value = useMemo(
     () => ({ stage, navigate, isReady: stage !== "entering" }),

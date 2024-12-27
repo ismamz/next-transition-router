@@ -14,7 +14,7 @@ export function Programmatic() {
           router.push("/demo");
         }}
       >
-        programmatic push
+        push
       </button>
       <button
         className="text-left underline underline-offset-4"
@@ -23,7 +23,7 @@ export function Programmatic() {
           router.replace("/demo");
         }}
       >
-        programmatic replace
+        replace
       </button>
     </>
   );

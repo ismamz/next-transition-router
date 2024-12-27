@@ -7,7 +7,7 @@ export function Back() {
 
   return (
     <button onClick={back} className="underline underline-offset-4">
-      router.back()
+      back
     </button>
   );
 }

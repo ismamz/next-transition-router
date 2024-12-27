@@ -73,6 +73,17 @@ export default function HomePage() {
         <Link href="/demo#test" className="underline underline-offset-4">
           Hash
         </Link>
+
+        <Link
+          href={{
+            pathname: "/demo",
+            query: { name: "test" },
+            hash: "test",
+          }}
+          className="underline underline-offset-4"
+        >
+          Url object
+        </Link>
       </div>
     </>
   );

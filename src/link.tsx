@@ -18,7 +18,7 @@ export function Link(props: React.ComponentProps<typeof NextLink>) {
         navigate((as || href) as string, { scroll: scroll ?? true });
       }
     },
-    [props.onClick, href, as, replace, scroll]
+    [props.onClick, href, as, replace, scroll, router]
   );
 
   return <NextLink {...props} onClick={onClick} />;

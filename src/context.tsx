@@ -61,13 +61,15 @@ export function TransitionRouter({
 
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
+      if (stage === "leaving") return;
+
       setStage("leaving");
 
       let callback = () => router[method](href, options);
       if (method === "back") callback = () => router.back();
       leaveRef.current = await leave(callback, pathname, href);
     },
-    [leave, router]
+    [leave, router, stage]
   );
 
   const handleClick = useCallback(

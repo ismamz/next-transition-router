@@ -61,8 +61,7 @@ export function TransitionRouter({
 
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
-      if (stage === "leaving") return;
-
+      if (stage === "leaving") return Promise.resolve();
       setStage("leaving");
 
       let callback = () => router[method](href, options);

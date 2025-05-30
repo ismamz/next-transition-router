@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
+import { Back } from "@/components/back";
 import { Reveal } from "@/components/reveal";
 import demoImage from "@/assets/image.jpg";
 import Link from "next/link";
@@ -28,13 +29,18 @@ export default async function DemoPage({
 
         <div className="relative z-50 flex flex-col items-center gap-8">
           <ButtonLink href="/" back>
-            Back
+            Home
           </ButtonLink>
 
           <div className="flex gap-8 text-xl font-medium uppercase text-white">
             <span>Current: {page}</span>
-            <Link href="/demo?page=1">Page 1</Link>
-            <Link href="/demo?page=2">Page 2</Link>
+            <Link href="/demo?page=1" className="underline underline-offset-4">
+              Page 1
+            </Link>
+            <Link href="/demo?page=2" className="underline underline-offset-4">
+              Page 2
+            </Link>
+            <Back />
           </div>
         </div>
       </div>

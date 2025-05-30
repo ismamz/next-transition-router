@@ -9,7 +9,7 @@ import Link from "next/link";
 export default async function DemoPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page: string }>;
+  searchParams: Promise<{ page: number }>;
 }) {
   const { page = 0 } = await searchParams;
 

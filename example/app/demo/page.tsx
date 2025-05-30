@@ -1,9 +1,9 @@
 import Image from "next/image";
+import { Link } from "next-transition-router";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
 import { Reveal } from "@/components/reveal";
 import demoImage from "@/assets/image.jpg";
-import Link from "next/link";
 
 export default function DemoPage() {
   return (

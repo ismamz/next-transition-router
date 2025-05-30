@@ -7,6 +7,7 @@ import {
   useMemo,
   useRef,
   useState,
+  Suspense,
 } from "react";
 import delegate, { DelegateEvent } from "delegate-it";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -53,12 +54,16 @@ export function TransitionRouter({
 }: TransitionRouterProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const [stage, setStage] = useState<Stage>("none");
+  const [pathWithSearch, setPathWithSearch] = useState(() => pathname);
 
   const leaveRef = useRef<(() => void) | void | null>(null);
   const enterRef = useRef<(() => void) | void | null>(null);
+
+  const handlePathChange = useCallback((newPathWithSearch: string) => {
+    setPathWithSearch(newPathWithSearch);
+  }, []);
 
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
@@ -71,10 +76,6 @@ export function TransitionRouter({
     },
     [leave, router, stage]
   );
-
-  const fullPath = useMemo(() => {
-    return pathname + searchParams.toString();
-  }, [pathname, searchParams]);
 
   const handleClick = useCallback(
     (event: DelegateEvent<MouseEvent>) => {
@@ -137,7 +138,7 @@ export function TransitionRouter({
         setStage("entering");
       }
     };
-  }, [stage, fullPath]);
+  }, [stage, pathWithSearch]);
 
   const value = useMemo(
     () => ({ stage, navigate, isReady: stage !== "entering" }),
@@ -146,6 +147,9 @@ export function TransitionRouter({
 
   return (
     <TransitionRouterContext.Provider value={value}>
+      <Suspense fallback={null}>
+        <SearchParamsHandler onPathChange={handlePathChange} />
+      </Suspense>
       {children}
     </TransitionRouterContext.Provider>
   );
@@ -153,4 +157,24 @@ export function TransitionRouter({
 
 export function useTransitionState() {
   return use(TransitionRouterContext);
+}
+
+function SearchParamsHandler({
+  onPathChange,
+}: {
+  onPathChange: (pathWithSearch: string) => void;
+}) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const pathWithSearch = useMemo(() => {
+    const search = searchParams.toString();
+    return pathname + (search ? `?${search}` : "");
+  }, [pathname, searchParams]);
+
+  useEffect(() => {
+    onPathChange(pathWithSearch);
+  }, [pathWithSearch, onPathChange]);
+
+  return null;
 }

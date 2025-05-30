@@ -7,9 +7,10 @@ import {
   useMemo,
   useRef,
   useState,
+  Suspense,
 } from "react";
 import delegate, { DelegateEvent } from "delegate-it";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { isModifiedEvent } from "./utils";
 
@@ -55,9 +56,14 @@ export function TransitionRouter({
   const pathname = usePathname();
 
   const [stage, setStage] = useState<Stage>("none");
+  const [pathWithSearch, setPathWithSearch] = useState(() => pathname);
 
   const leaveRef = useRef<(() => void) | void | null>(null);
   const enterRef = useRef<(() => void) | void | null>(null);
+
+  const handlePathChange = useCallback((newPathWithSearch: string) => {
+    setPathWithSearch(newPathWithSearch);
+  }, []);
 
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
@@ -78,15 +84,19 @@ export function TransitionRouter({
       const ignore = anchor?.getAttribute("data-transition-ignore");
 
       const url = href ? new URL(href, window.location.origin) : null;
-      const targetPathname = url?.pathname;
+      const currentUrl = new URL(window.location.href);
+
+      const isSamePage =
+        url?.pathname === currentUrl.pathname &&
+        url?.search === currentUrl.search;
 
       if (
         !ignore &&
         href?.startsWith("/") &&
-        targetPathname !== pathname &&
+        !isSamePage &&
         anchor.target !== "_blank" &&
         !isModifiedEvent(event) &&
-        !(href.includes("#") && targetPathname === pathname)
+        !(href.includes("#") && url?.pathname === pathname)
       ) {
         event.preventDefault();
         navigate(href, pathname);
@@ -128,7 +138,7 @@ export function TransitionRouter({
         setStage("entering");
       }
     };
-  }, [stage, pathname]);
+  }, [stage, pathWithSearch]);
 
   const value = useMemo(
     () => ({ stage, navigate, isReady: stage !== "entering" }),
@@ -137,6 +147,9 @@ export function TransitionRouter({
 
   return (
     <TransitionRouterContext.Provider value={value}>
+      <Suspense fallback={null}>
+        <SearchParamsHandler onPathChange={handlePathChange} />
+      </Suspense>
       {children}
     </TransitionRouterContext.Provider>
   );
@@ -144,4 +157,24 @@ export function TransitionRouter({
 
 export function useTransitionState() {
   return use(TransitionRouterContext);
+}
+
+function SearchParamsHandler({
+  onPathChange,
+}: {
+  onPathChange: (pathWithSearch: string) => void;
+}) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const pathWithSearch = useMemo(() => {
+    const search = searchParams.toString();
+    return pathname + (search ? `?${search}` : "");
+  }, [pathname, searchParams]);
+
+  useEffect(() => {
+    onPathChange(pathWithSearch);
+  }, [pathWithSearch, onPathChange]);
+
+  return null;
 }

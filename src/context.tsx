@@ -68,7 +68,7 @@ export function TransitionRouter({
 
       const targetUrl = new URL(href, window.location.origin);
       const currentUrl = new URL(window.location.href);
-      const isSamePathname = targetUrl.pathname === currentUrl.pathname;
+      const isSamePathname = targetUrl.pathname === currentUrl.pathname && targetUrl.search === currentUrl.search;
 
       if (
         method !== "back" &&

@@ -11,7 +11,7 @@ import {
 import delegate, { DelegateEvent } from "delegate-it";
 import { usePathname, useRouter } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { isModifiedEvent } from "./utils";
+import { shouldLinkTriggerTransition } from "./utils";
 
 export type Stage = "leaving" | "entering" | "none";
 
@@ -62,49 +62,63 @@ export function TransitionRouter({
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
       if (stage === "leaving") return Promise.resolve();
-  
+
       let next = () => router[method](href, options);
       if (method === "back") next = () => router.back();
 
-      const targetUrl = new URL(href, window.location.origin);
-      const currentUrl = new URL(window.location.href);
-      const isSamePathname = targetUrl.pathname === currentUrl.pathname && targetUrl.search === currentUrl.search;
-
-      if (
-        method !== "back" &&
-        (
-          (href.startsWith('#') || (href.includes('#') && isSamePathname)) ||
-          targetUrl.origin !== currentUrl.origin ||
-          isSamePathname
-        )
-      ) {
+      // handle back navigation case where href is undefined
+      if (method === "back" || !href) {
         next();
         return;
       }
 
-      setStage("leaving");
-      leaveRef.current = await leave(next, pathname, href);
+      // skip transition for hash-only links
+      if (href.startsWith("#")) {
+        next();
+        return;
+      }
+
+      let target: URL;
+      let current: URL;
+
+      try {
+        current = new URL(window.location.href);
+        target = new URL(href, current);
+      } catch (error) {
+        next();
+        return;
+      }
+
+      const isSamePage =
+        target.pathname === current.pathname &&
+        target.search === current.search &&
+        target.hash === current.hash;
+
+      const isSamePathDifferentParams =
+        target.pathname === current.pathname &&
+        (target.search !== current.search || target.hash !== current.hash);
+
+      if (
+        target.origin === current.origin && // same origin
+        !isSamePage && // not link to self
+        !isSamePathDifferentParams // not same pathname but different params
+      ) {
+        setStage("leaving");
+        leaveRef.current = await leave(next, pathname, href);
+      } else {
+        next();
+      }
     },
     [leave, router, stage]
   );
 
   const handleClick = useCallback(
     (event: DelegateEvent<MouseEvent>) => {
-      const anchor = event.delegateTarget as HTMLAnchorElement;
-      const href = anchor?.getAttribute("href");
-      const ignore = anchor?.getAttribute("data-transition-ignore");
+      const link = event.delegateTarget as HTMLAnchorElement;
+      const href = link?.getAttribute("href");
+      const ignore = link?.getAttribute("data-transition-ignore"); // ignore only works in auto mode
 
-      const url = href ? new URL(href, window.location.origin) : null;
-      const targetPathname = url?.pathname;
-
-      if (
-        !ignore &&
-        href?.startsWith("/") &&
-        targetPathname !== pathname &&
-        anchor.target !== "_blank" &&
-        !isModifiedEvent(event) &&
-        !(href.includes("#") && targetPathname === pathname)
-      ) {
+      if (!ignore && shouldLinkTriggerTransition(link, event)) {
         event.preventDefault();
         navigate(href, pathname);
       }

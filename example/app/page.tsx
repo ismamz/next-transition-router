@@ -47,15 +47,17 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 z-50 mb-6 ml-8 flex flex-col gap-3 py-2 text-sm text-gray-500 md:flex-row md:gap-4 lg:mb-8 lg:ml-16 lg:items-center lg:py-3">
-        <span className="text-xs font-medium uppercase">Demo </span>
+      <div className="fixed bottom-12 left-0 z-50 mb-6 ml-8 grid grid-cols-4 flex-row gap-6 py-2 text-sm text-gray-500 md:bottom-0 md:flex md:flex-row md:gap-3 lg:mb-8 lg:ml-16 lg:items-center lg:py-3">
+        <span className="hidden text-xs font-medium uppercase md:block">
+          Demo{" "}
+        </span>
 
         <Link
           href="/demo"
           data-transition-ignore
           className="underline underline-offset-4"
         >
-          ignore transition
+          ignore
         </Link>
 
         <TransitionLink
@@ -71,7 +73,7 @@ export default function HomePage() {
         <Back />
 
         <Link href="/demo#test" className="underline underline-offset-4">
-          Hash
+          hash
         </Link>
 
         <Link
@@ -82,7 +84,7 @@ export default function HomePage() {
           }}
           className="underline underline-offset-4"
         >
-          Url object
+          url object
         </Link>
       </div>
     </>

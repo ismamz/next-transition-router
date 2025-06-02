@@ -4,6 +4,7 @@ import { Title } from "@/components/title";
 import { Reveal } from "@/components/reveal";
 import demoImage from "@/assets/image.jpg";
 import Link from "next/link";
+import { Link as TransitionLink } from "next-transition-router";
 
 export default function DemoPage() {
   return (
@@ -36,10 +37,49 @@ export default function DemoPage() {
         />
       </Reveal>
 
+      <section className="flex h-dvh items-center justify-center bg-white">
+        <div className="flex flex-col gap-6 px-4 md:flex-row">
+          <TransitionLink
+            data-transition-ignore
+            href="/demo"
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            same pathname
+          </TransitionLink>
+          <TransitionLink
+            data-transition-ignore
+            href="/demo#test"
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            same pathname with hash
+          </TransitionLink>
+          <TransitionLink
+            data-transition-ignore
+            href="/"
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            simple custom link
+          </TransitionLink>
+          <TransitionLink
+            data-transition-ignore
+            href={{
+              pathname: "/",
+              query: { name: "test" },
+            }}
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            url object
+          </TransitionLink>
+        </div>
+      </section>
+
       <div id="test" className="flex h-dvh items-center justify-center">
-        <p className="text-3xl">
+        <p className="flex gap-6 text-lg md:text-3xl">
           <Link href="#" className="underline underline-offset-4">
-            top ↑
+            top ↑ (#)
+          </Link>
+          <Link href="/demo#" className="underline underline-offset-4">
+            top ↑ (/demo#)
           </Link>
         </p>
       </div>

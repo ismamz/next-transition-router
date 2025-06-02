@@ -6,7 +6,7 @@ export function Back() {
   const { back } = useTransitionRouter();
 
   return (
-    <button onClick={back} className="underline underline-offset-4">
+    <button onClick={back} className="text-left underline underline-offset-4">
       back
     </button>
   );

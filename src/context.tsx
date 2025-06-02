@@ -62,11 +62,28 @@ export function TransitionRouter({
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
       if (stage === "leaving") return Promise.resolve();
-      setStage("leaving");
+  
+      let next = () => router[method](href, options);
+      if (method === "back") next = () => router.back();
 
-      let callback = () => router[method](href, options);
-      if (method === "back") callback = () => router.back();
-      leaveRef.current = await leave(callback, pathname, href);
+      const targetUrl = new URL(href, window.location.origin);
+      const currentUrl = new URL(window.location.href);
+      const isSamePathname = targetUrl.pathname === currentUrl.pathname && targetUrl.search === currentUrl.search;
+
+      if (
+        method !== "back" &&
+        (
+          (href.startsWith('#') || (href.includes('#') && isSamePathname)) ||
+          targetUrl.origin !== currentUrl.origin ||
+          isSamePathname
+        )
+      ) {
+        next();
+        return;
+      }
+
+      setStage("leaving");
+      leaveRef.current = await leave(next, pathname, href);
     },
     [leave, router, stage]
   );

@@ -231,6 +231,26 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
+## Performance Optimization
+
+When overlapping exit animations with page loading (common for smooth transitions), React rendering can cause animation jank. Use `requestAnimationFrame` and `startTransition` to prioritize animation performance:
+
+```tsx
+import { startTransition } from "react";
+
+enter={(next) => {
+  const tl = gsap.timeline()
+    .to(".overlay", { y: "-100%", duration: 0.5 })
+    .call(() => {
+      requestAnimationFrame(() => startTransition(next));
+    }, undefined, "<50%"); // Overlap timing preserved
+    
+  return () => tl.kill();
+}}
+```
+
+This prevents React updates from interfering with your animation timeline while maintaining visual timing.
+
 ## API
 
 ### `TransitionRouter`

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, startTransition } from "react";
 import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 
@@ -66,7 +66,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
             },
             "<50%",
           )
-          .call(next, undefined, "<50%");
+          .call(() => {
+            // Defer React updates to prevent jank during animation
+            requestAnimationFrame(() => {
+              startTransition(next);
+            });
+          }, undefined, "<50%");
 
         return () => {
           tl.kill();

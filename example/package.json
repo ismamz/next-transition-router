@@ -10,7 +10,7 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "gsap": "^3.12.5",
-    "next": "latest",
+    "next": "15.5.8",
     "next-transition-router": "workspace:*",
     "react": "latest",
     "react-dom": "latest",

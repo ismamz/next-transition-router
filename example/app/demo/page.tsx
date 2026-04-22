@@ -1,12 +1,26 @@
+"use client";
+
 import Image from "next/image";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
 import { Reveal } from "@/components/reveal";
 import demoImage from "@/assets/image.jpg";
 import Link from "next/link";
-import { Link as TransitionLink } from "next-transition-router";
+import {
+  Link as TransitionLink,
+  usePageTransition,
+} from "next-transition-router";
 
 export default function DemoPage() {
+  usePageTransition({
+    onEnter: (timeline) => {
+      timeline?.from("#square", { opacity: 0, y: 50, duration: 0.8 }, 0.3);
+    },
+    onLeave: (timeline) => {
+      timeline?.to("#square", { opacity: 0, y: -30, duration: 0.4 }, 0);
+    },
+  });
+
   return (
     <>
       <div className="mx-auto flex h-dvh flex-col items-center justify-center px-8 lg:max-w-[75%] lg:px-16">
@@ -20,6 +34,8 @@ export default function DemoPage() {
             </span>
           </div>
         </Title>
+
+        <div className="relative z-50 size-20 bg-red-500" id="square"></div>
 
         <div className="relative z-50">
           <ButtonLink href="/" back>

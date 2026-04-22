@@ -7,10 +7,12 @@ import { TransitionRouter } from "next-transition-router";
 export function Providers({ children }: { children: React.ReactNode }) {
   const firstLayer = useRef<HTMLDivElement | null>(null);
   const secondLayer = useRef<HTMLDivElement | null>(null);
+  const tl = useRef(gsap.timeline());
 
   return (
     <TransitionRouter
       auto={true}
+      timeline={tl.current}
       leave={(next, from, to) => {
         console.log({ from, to });
 

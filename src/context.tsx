@@ -26,6 +26,7 @@ export interface TransitionRouterProps {
   leave?: TransitionCallback;
   enter?: TransitionCallback;
   auto?: boolean;
+  timeline?: any;
 }
 
 export type NavigateProps = (
@@ -39,6 +40,7 @@ const TransitionRouterContext = createContext<{
   stage: Stage;
   navigate: NavigateProps;
   isReady: boolean;
+  timeline?: any;
 }>({
   stage: "none",
   navigate: () => {},
@@ -50,6 +52,7 @@ export function TransitionRouter({
   leave = async (next) => next(),
   enter = async (next) => next(),
   auto = false,
+  timeline,
 }: TransitionRouterProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -162,8 +165,8 @@ export function TransitionRouter({
   }, [stage, pathname]);
 
   const value = useMemo(
-    () => ({ stage, navigate, isReady: stage !== "entering" }),
-    [stage, navigate]
+    () => ({ stage, navigate, isReady: stage !== "entering", timeline }),
+    [stage, navigate, timeline]
   );
 
   return (

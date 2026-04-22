@@ -34,7 +34,7 @@
   "devDependencies": {
     "@types/react": "^18.2.78",
     "bunchee": "^5.1.2",
-    "next": "15.5.8",
+    "next": "14.2.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.4.5"

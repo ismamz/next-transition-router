@@ -1,3 +1,35 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=ismamz&project=next-transition-router&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/ismamz/next-transition-router/main/example/app/icon.svg" alt="next-transition-router" width="100" height="100" />
   <h1>next-transition-router</h1>

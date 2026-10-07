@@ -5,18 +5,20 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "gsap": "^3.12.5",
-    "next": "latest",
+    "next": "15.5.15",
     "next-transition-router": "workspace:*",
     "react": "latest",
     "react-dom": "latest",
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "latest",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.41",

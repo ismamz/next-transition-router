@@ -24,17 +24,56 @@ If you're looking to use the View Transitions API, check [next-view-transitions]
 > [!WARNING]
 > This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
 
+## Video tutorials
+
+Learn how to build page transitions with these community tutorials.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=ngD_e4m45S0">
+        <img src="https://i.ytimg.com/vi/ngD_e4m45S0/maxresdefault.jpg" alt="Next JS Page Transitions Taken Over by GSAP (The Hyperactive Block Reveal Effect)" width="480" />
+        <br />
+        <strong>Next JS Page Transitions Taken Over by GSAP (The Hyperactive Block Reveal Effect)</strong>
+      </a>
+      <br />
+      Codegrid
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=Y_xP_IRGvbM">
+        <img src="https://i.ytimg.com/vi/Y_xP_IRGvbM/maxresdefault.jpg" alt="Premium SVG Page Transition in Next.js (GSAP + Next Transition Router)" width="480" />
+        <br />
+        <strong>Premium SVG Page Transition in Next.js (GSAP + Next Transition Router)</strong>
+      </a>
+      <br />
+      WolfDev
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=0TA4LTy4Ib0">
+        <img src="https://i.ytimg.com/vi/0TA4LTy4Ib0/maxresdefault.jpg" alt="The $10,000 Next JS Page Transition That Took Me One Coffee and Four Divs" width="480" />
+        <br />
+        <strong>The $10,000 Next JS Page Transition That Took Me One Coffee and Four Divs</strong>
+      </a>
+      <br />
+      Codegrid
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=4pNvK0WMqCc">
+        <img src="https://i.ytimg.com/vi/4pNvK0WMqCc/maxresdefault.jpg" alt="I Let GSAP Eat My Next JS Page Transitions Again (The Awwwards SOTD One)" width="480" />
+        <br />
+        <strong>I Let GSAP Eat My Next JS Page Transitions Again (The Awwwards SOTD One)</strong>
+      </a>
+      <br />
+      Codegrid
+    </td>
+  </tr>
+</table>
+
 ## Installation
 
-Install the package using your preferred package manager:
-
-```sh
-pnpm add next-transition-router
-```
-
-```sh
-yarn add next-transition-router
-```
+Install the package using npm:
 
 ```sh
 npm install next-transition-router
@@ -167,6 +206,31 @@ export function Programmatic() {
 > [!IMPORTANT]
 > Back and Forward browser navigation doesn't trigger page transitions, and [this is intentional](https://github.com/ismamz/next-transition-router/issues/2).
 
+### Search parameter transitions
+
+By default, changing only the query string navigates without an animation. Opt in
+with `transitionOnSearchParams` to animate filtering, pagination, or other search
+parameter changes on the same pathname:
+
+```tsx
+<TransitionRouter
+  transitionOnSearchParams
+  leave={(next) => someAnimation().then(next)}
+  enter={(next) => anotherAnimation().then(next)}
+>
+  {children}
+</TransitionRouter>
+```
+
+This applies to the custom `Link`, auto-detected links, and programmatic `push`
+and `replace`. Adding, changing, and removing parameters complete the full
+`leaving` → `entering` → `none` cycle. Hash-only changes and equivalent query
+encodings (such as `?q=a%20b` and `?q=a+b`) do not animate. Browser history
+navigation keeps its existing behavior.
+
+The query observer has its own Suspense boundary, so enabling this option does
+not require wrapping the application in Suspense.
+
 ### Transition state
 
 Use the `useTransitionState` hook to determine the current stage of the transition.
@@ -227,6 +291,26 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
+## Performance Optimization
+
+When overlapping exit animations with page loading (common for smooth transitions), React rendering can cause animation jank. Use `requestAnimationFrame` and `startTransition` to prioritize animation performance:
+
+```tsx
+import { startTransition } from "react";
+
+enter={(next) => {
+  const tl = gsap.timeline()
+    .to(".overlay", { y: "-100%", duration: 0.5 })
+    .call(() => {
+      requestAnimationFrame(() => startTransition(next));
+    }, undefined, "<50%"); // Overlap timing preserved
+    
+  return () => tl.kill();
+}}
+```
+
+This prevents React updates from interfering with your animation timeline while maintaining visual timing.
+
 ## API
 
 ### `TransitionRouter`
@@ -236,6 +320,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 | `leave`    | `function` | `next => next()` | Function to handle the leaving animation          |
 | `enter`    | `function` | `next => next()` | Function to handle the entering animation         |
 | `auto`     | `boolean`  | `false`          | Flag to enable/disable auto-detection of links    |
+| `transitionOnSearchParams` | `boolean` | `false` | Animate query string changes on the same pathname. |
 
 ### `useTransitionState`
 
@@ -244,10 +329,40 @@ export function Providers({ children }: { children: React.ReactNode }) {
 | `stage`   | `'entering' \| 'leaving' \| 'none'` | Indicates the current stage of the transition.     |
 | `isReady` | `boolean`                           | Indicates if the new page is ready to be animated. |
 
+## Used by…
+
+- [Eladio Dieste](https://www.eladiodieste.com/) (by [++hellohello](https://www.hellohello.is))
+- [Outfit®](https://outfit.hellohello.is/) (Awwwards SOTD & Dev, FWA of the Day, by [++hellohello](https://www.hellohello.is))
+- [197 Historias Ilustradas](https://www.197historiasilustradas.com/) (FWA of the Day, by [++hellohello](https://www.hellohello.is))
+- [Studio 375](https://375.studio/) (Awwwards SOTD & Dev)
+- [Anuc Home](https://www.anuchome.com/) (Awwwards SOTD & Dev, FWA of the Day, by [Edoardo Lunardi](https://www.edoardolunardi.dev/) & Eva Landaluce)
+- [Secret Level](https://www.secretlevel.co/) (by [Andreas Antonsson](https://www.andreasantonsson.dev/))
+- [MIUX Studio](https://madeinuxstudio.com/) (Awwwards SOTD, by MIUX)
+
 ## Disclaimer
 
 This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
 
+## Local browser tests
+
+The example includes pagination controls and a checkbox for enabling query
+transitions. To run its Playwright regression tests against a production build:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm --filter next-transition-router-example exec playwright install chromium
+pnpm build
+pnpm --filter next-transition-router-example build
+pnpm --filter next-transition-router-example test:e2e
+```
+
+Add `--headed` to the last command to watch the browser. Failed tests retain
+Playwright traces in `example/test-results`.
+
 ## License
 
 MIT.
+
+---
+
+by [isma](https://isma.uy)

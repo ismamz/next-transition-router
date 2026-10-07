@@ -1,15 +1,16 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
-import { Back } from "@/components/back";
+import { SearchParamsNavigation } from "@/components/search-params-navigation";
 import { Reveal } from "@/components/reveal";
 import demoImage from "@/assets/image.jpg";
 import Link from "next/link";
+import { Link as TransitionLink } from "next-transition-router";
 
 export default async function DemoPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page: number }>;
+  searchParams: Promise<{ page?: string | string[] }>;
 }) {
   const { page = 0 } = await searchParams;
 
@@ -32,16 +33,9 @@ export default async function DemoPage({
             Home
           </ButtonLink>
 
-          <div className="flex gap-8 text-xl font-medium uppercase text-white">
-            <span>Current: {page}</span>
-            <Link href="/demo?page=1" className="underline underline-offset-4">
-              Page 1
-            </Link>
-            <Link href="/demo?page=2" className="underline underline-offset-4">
-              Page 2
-            </Link>
-            <Back />
-          </div>
+          <SearchParamsNavigation
+            page={Array.isArray(page) ? page[0] : String(page)}
+          />
         </div>
       </div>
 
@@ -54,10 +48,49 @@ export default async function DemoPage({
         />
       </Reveal>
 
+      <section className="flex h-dvh items-center justify-center bg-white">
+        <div className="flex flex-col gap-6 px-4 md:flex-row">
+          <TransitionLink
+            data-transition-ignore
+            href="/demo"
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            same pathname
+          </TransitionLink>
+          <TransitionLink
+            data-transition-ignore
+            href="/demo#test"
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            same pathname with hash
+          </TransitionLink>
+          <TransitionLink
+            data-transition-ignore
+            href="/"
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            simple custom link
+          </TransitionLink>
+          <TransitionLink
+            data-transition-ignore
+            href={{
+              pathname: "/",
+              query: { name: "test" },
+            }}
+            className="text-md rounded-full bg-primary px-6 py-3 text-center text-white"
+          >
+            url object
+          </TransitionLink>
+        </div>
+      </section>
+
       <div id="test" className="flex h-dvh items-center justify-center">
-        <p className="text-3xl">
+        <p className="flex gap-6 text-lg md:text-3xl">
           <Link href="#" className="underline underline-offset-4">
-            top ↑
+            top ↑ (#)
+          </Link>
+          <Link href="/demo#" className="underline underline-offset-4">
+            top ↑ (/demo#)
           </Link>
         </p>
       </div>

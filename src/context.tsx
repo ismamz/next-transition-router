@@ -93,21 +93,15 @@ export function TransitionRouter({
         return;
       }
 
-      const isSamePage =
-        target.pathname === current.pathname &&
-        target.search === current.search &&
-        target.hash === current.hash;
-
-      const isSamePathDifferentParams =
-        target.pathname === current.pathname &&
-        (target.search !== current.search || target.hash !== current.hash);
-
-      const isDifferentSearchParams = target.search !== current.search;
+      // Match the serialization used by SearchParamsObserver. Equivalent query
+      // encodings (such as %20 and +) cannot trigger an observer update.
+      const isDifferentSearchParams =
+        target.searchParams.toString() !== current.searchParams.toString();
 
       const shouldTransition =
         target.origin === current.origin && // same origin
-        !isSamePage && // not link to self
-        (target.pathname !== current.pathname || (transitionOnSearchParams && isDifferentSearchParams));
+        (target.pathname !== current.pathname ||
+          (transitionOnSearchParams && isDifferentSearchParams));
 
       if (shouldTransition) {
         setStage("leaving");

@@ -12,7 +12,7 @@ import {
 import delegate, { DelegateEvent } from "delegate-it";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { isModifiedEvent } from "./utils";
+import { shouldLinkTriggerTransition } from "./utils";
 
 export type Stage = "leaving" | "entering" | "none";
 
@@ -27,6 +27,7 @@ export interface TransitionRouterProps {
   leave?: TransitionCallback;
   enter?: TransitionCallback;
   auto?: boolean;
+  transitionOnSearchParams?: boolean;
 }
 
 export type NavigateProps = (
@@ -51,53 +52,80 @@ export function TransitionRouter({
   leave = async (next) => next(),
   enter = async (next) => next(),
   auto = false,
+  transitionOnSearchParams = false,
 }: TransitionRouterProps) {
   const router = useRouter();
   const pathname = usePathname();
 
   const [stage, setStage] = useState<Stage>("none");
-  const [pathWithSearch, setPathWithSearch] = useState(() => pathname);
+  const [searchParamsKey, setSearchParamsKey] = useState("");
 
   const leaveRef = useRef<(() => void) | void | null>(null);
   const enterRef = useRef<(() => void) | void | null>(null);
 
-  const handlePathChange = useCallback((newPathWithSearch: string) => {
-    setPathWithSearch(newPathWithSearch);
-  }, []);
-
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
       if (stage === "leaving") return Promise.resolve();
-      setStage("leaving");
 
-      let callback = () => router[method](href, options);
-      if (method === "back") callback = () => router.back();
-      leaveRef.current = await leave(callback, pathname, href);
+      let next = () => router[method](href, options);
+      if (method === "back") next = () => router.back();
+
+      // handle back navigation case where href is undefined
+      if (method === "back" || !href) {
+        next();
+        return;
+      }
+
+      // skip transition for hash-only links
+      if (href.startsWith("#")) {
+        next();
+        return;
+      }
+
+      let target: URL;
+      let current: URL;
+
+      try {
+        current = new URL(window.location.href);
+        target = new URL(href, current);
+      } catch (error) {
+        next();
+        return;
+      }
+
+      const isSamePage =
+        target.pathname === current.pathname &&
+        target.search === current.search &&
+        target.hash === current.hash;
+
+      const isSamePathDifferentParams =
+        target.pathname === current.pathname &&
+        (target.search !== current.search || target.hash !== current.hash);
+
+      const isDifferentSearchParams = target.search !== current.search;
+
+      const shouldTransition =
+        target.origin === current.origin && // same origin
+        !isSamePage && // not link to self
+        (target.pathname !== current.pathname || (transitionOnSearchParams && isDifferentSearchParams));
+
+      if (shouldTransition) {
+        setStage("leaving");
+        leaveRef.current = await leave(next, pathname, href);
+      } else {
+        next();
+      }
     },
-    [leave, router, stage]
+    [leave, router, stage, transitionOnSearchParams]
   );
 
   const handleClick = useCallback(
     (event: DelegateEvent<MouseEvent>) => {
-      const anchor = event.delegateTarget as HTMLAnchorElement;
-      const href = anchor?.getAttribute("href");
-      const ignore = anchor?.getAttribute("data-transition-ignore");
+      const link = event.delegateTarget as HTMLAnchorElement;
+      const href = link?.getAttribute("href");
+      const ignore = link?.getAttribute("data-transition-ignore"); // ignore only works in auto mode
 
-      const url = href ? new URL(href, window.location.origin) : null;
-      const currentUrl = new URL(window.location.href);
-
-      const isSamePage =
-        url?.pathname === currentUrl.pathname &&
-        url?.search === currentUrl.search;
-
-      if (
-        !ignore &&
-        href?.startsWith("/") &&
-        !isSamePage &&
-        anchor.target !== "_blank" &&
-        !isModifiedEvent(event) &&
-        !(href.includes("#") && url?.pathname === pathname)
-      ) {
+      if (!ignore && shouldLinkTriggerTransition(link, event)) {
         event.preventDefault();
         navigate(href, pathname);
       }
@@ -129,6 +157,10 @@ export function TransitionRouter({
     }
   }, [stage, enter]);
 
+  const navKey = transitionOnSearchParams
+    ? `${pathname}?${searchParamsKey}`
+    : pathname;
+
   useEffect(() => {
     return () => {
       if (stage === "leaving") {
@@ -138,7 +170,7 @@ export function TransitionRouter({
         setStage("entering");
       }
     };
-  }, [stage, pathWithSearch]);
+  }, [stage, navKey]);
 
   const value = useMemo(
     () => ({ stage, navigate, isReady: stage !== "entering" }),
@@ -147,9 +179,11 @@ export function TransitionRouter({
 
   return (
     <TransitionRouterContext.Provider value={value}>
-      <Suspense fallback={null}>
-        <SearchParamsHandler onPathChange={handlePathChange} />
-      </Suspense>
+      {transitionOnSearchParams && (
+        <Suspense fallback={null}>
+          <SearchParamsObserver onChange={setSearchParamsKey} />
+        </Suspense>
+      )}
       {children}
     </TransitionRouterContext.Provider>
   );
@@ -159,22 +193,17 @@ export function useTransitionState() {
   return use(TransitionRouterContext);
 }
 
-function SearchParamsHandler({
-  onPathChange,
+function SearchParamsObserver({
+  onChange,
 }: {
-  onPathChange: (pathWithSearch: string) => void;
+  onChange: (searchParams: string) => void;
 }) {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  const pathWithSearch = useMemo(() => {
-    const search = searchParams.toString();
-    return pathname + (search ? `?${search}` : "");
-  }, [pathname, searchParams]);
+  const searchString = searchParams.toString();
 
   useEffect(() => {
-    onPathChange(pathWithSearch);
-  }, [pathWithSearch, onPathChange]);
+    onChange(searchString);
+  }, [searchString, onChange]);
 
   return null;
 }

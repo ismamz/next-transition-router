@@ -1,12 +1,19 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/button";
 import { Title } from "@/components/title";
+import { SearchParamsNavigation } from "@/components/search-params-navigation";
 import { Reveal } from "@/components/reveal";
 import demoImage from "@/assets/image.jpg";
 import Link from "next/link";
 import { Link as TransitionLink } from "next-transition-router";
 
-export default function DemoPage() {
+export default async function DemoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const { page = 0 } = await searchParams;
+
   return (
     <>
       <div className="mx-auto flex h-dvh flex-col items-center justify-center px-8 lg:max-w-[75%] lg:px-16">
@@ -21,10 +28,14 @@ export default function DemoPage() {
           </div>
         </Title>
 
-        <div className="relative z-50">
+        <div className="relative z-50 flex flex-col items-center gap-8">
           <ButtonLink href="/" back>
-            Back
+            Home
           </ButtonLink>
+
+          <SearchParamsNavigation
+            page={Array.isArray(page) ? page[0] : String(page)}
+          />
         </div>
       </div>
 

@@ -7,9 +7,10 @@ import {
   useMemo,
   useRef,
   useState,
+  Suspense,
 } from "react";
 import delegate, { DelegateEvent } from "delegate-it";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { shouldLinkTriggerTransition } from "./utils";
 
@@ -26,6 +27,7 @@ export interface TransitionRouterProps {
   leave?: TransitionCallback;
   enter?: TransitionCallback;
   auto?: boolean;
+  watchSearchParams?: boolean;
 }
 
 export type NavigateProps = (
@@ -50,11 +52,13 @@ export function TransitionRouter({
   leave = async (next) => next(),
   enter = async (next) => next(),
   auto = false,
+  watchSearchParams = false,
 }: TransitionRouterProps) {
   const router = useRouter();
   const pathname = usePathname();
 
   const [stage, setStage] = useState<Stage>("none");
+  const [searchParamsKey, setSearchParamsKey] = useState("");
 
   const leaveRef = useRef<(() => void) | void | null>(null);
   const enterRef = useRef<(() => void) | void | null>(null);
@@ -89,27 +93,24 @@ export function TransitionRouter({
         return;
       }
 
-      const isSamePage =
-        target.pathname === current.pathname &&
-        target.search === current.search &&
-        target.hash === current.hash;
+      // Match the serialization used by SearchParamsObserver. Equivalent query
+      // encodings (such as %20 and +) cannot trigger an observer update.
+      const isDifferentSearchParams =
+        target.searchParams.toString() !== current.searchParams.toString();
 
-      const isSamePathDifferentParams =
-        target.pathname === current.pathname &&
-        (target.search !== current.search || target.hash !== current.hash);
-
-      if (
+      const shouldTransition =
         target.origin === current.origin && // same origin
-        !isSamePage && // not link to self
-        !isSamePathDifferentParams // not same pathname but different params
-      ) {
+        (target.pathname !== current.pathname ||
+          (watchSearchParams && isDifferentSearchParams));
+
+      if (shouldTransition) {
         setStage("leaving");
         leaveRef.current = await leave(next, pathname, href);
       } else {
         next();
       }
     },
-    [leave, router, stage]
+    [leave, router, stage, watchSearchParams]
   );
 
   const handleClick = useCallback(
@@ -150,6 +151,10 @@ export function TransitionRouter({
     }
   }, [stage, enter]);
 
+  const navKey = watchSearchParams
+    ? `${pathname}?${searchParamsKey}`
+    : pathname;
+
   useEffect(() => {
     return () => {
       if (stage === "leaving") {
@@ -159,7 +164,7 @@ export function TransitionRouter({
         setStage("entering");
       }
     };
-  }, [stage, pathname]);
+  }, [stage, navKey]);
 
   const value = useMemo(
     () => ({ stage, navigate, isReady: stage !== "entering" }),
@@ -168,6 +173,11 @@ export function TransitionRouter({
 
   return (
     <TransitionRouterContext.Provider value={value}>
+      {watchSearchParams && (
+        <Suspense fallback={null}>
+          <SearchParamsObserver onChange={setSearchParamsKey} />
+        </Suspense>
+      )}
       {children}
     </TransitionRouterContext.Provider>
   );
@@ -175,4 +185,19 @@ export function TransitionRouter({
 
 export function useTransitionState() {
   return use(TransitionRouterContext);
+}
+
+function SearchParamsObserver({
+  onChange,
+}: {
+  onChange: (searchParams: string) => void;
+}) {
+  const searchParams = useSearchParams();
+  const searchString = searchParams.toString();
+
+  useEffect(() => {
+    onChange(searchString);
+  }, [searchString, onChange]);
+
+  return null;
 }

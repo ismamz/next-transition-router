@@ -7,7 +7,7 @@ export function Back() {
 
   return (
     <button onClick={back} className="text-left underline underline-offset-4">
-      back
+      ← back
     </button>
   );
 }

@@ -1,16 +1,26 @@
 "use client";
 
-import { useRef, startTransition } from "react";
+import { createContext, useRef, useState, startTransition } from "react";
 import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 
+export const TransitionSettingsContext = createContext({
+  auto: true,
+  setAuto: (auto: boolean) => {},
+  enabled: true,
+  setEnabled: (enabled: boolean) => {},
+});
+
 export function Providers({ children }: { children: React.ReactNode }) {
+  const [auto, setAuto] = useState(true);
+  const [enabled, setEnabled] = useState(true);
   const firstLayer = useRef<HTMLDivElement | null>(null);
   const secondLayer = useRef<HTMLDivElement | null>(null);
 
   return (
     <TransitionRouter
-      auto={true}
+      auto={auto}
+      watchSearchParams={enabled}
       leave={(next, from, to) => {
         console.log({ from, to });
 
@@ -66,19 +76,27 @@ export function Providers({ children }: { children: React.ReactNode }) {
             },
             "<50%",
           )
-          .call(() => {
-            // Defer React updates to prevent jank during animation
-            requestAnimationFrame(() => {
-              startTransition(next);
-            });
-          }, undefined, "<50%");
+          .call(
+            () => {
+              // Defer React updates to prevent jank during animation
+              requestAnimationFrame(() => {
+                startTransition(next);
+              });
+            },
+            undefined,
+            "<50%",
+          );
 
         return () => {
           tl.kill();
         };
       }}
     >
-      <main>{children}</main>
+      <TransitionSettingsContext.Provider
+        value={{ auto, setAuto, enabled, setEnabled }}
+      >
+        <main>{children}</main>
+      </TransitionSettingsContext.Provider>
 
       <div
         ref={firstLayer}

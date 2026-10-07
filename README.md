@@ -206,6 +206,31 @@ export function Programmatic() {
 > [!IMPORTANT]
 > Back and Forward browser navigation doesn't trigger page transitions, and [this is intentional](https://github.com/ismamz/next-transition-router/issues/2).
 
+### Search parameter transitions
+
+By default, changing only the query string navigates without an animation. Opt in
+with `watchSearchParams` to animate filtering, pagination, or other search
+parameter changes on the same pathname:
+
+```tsx
+<TransitionRouter
+  watchSearchParams
+  leave={(next) => someAnimation().then(next)}
+  enter={(next) => anotherAnimation().then(next)}
+>
+  {children}
+</TransitionRouter>
+```
+
+This applies to the custom `Link`, auto-detected links, and programmatic `push`
+and `replace`. Adding, changing, and removing parameters complete the full
+`leaving` → `entering` → `none` cycle. Hash-only changes and equivalent query
+encodings (such as `?q=a%20b` and `?q=a+b`) do not animate. Browser history
+navigation keeps its existing behavior.
+
+The query observer has its own Suspense boundary, so enabling this option does
+not require wrapping the application in Suspense.
+
 ### Transition state
 
 Use the `useTransitionState` hook to determine the current stage of the transition.
@@ -295,6 +320,7 @@ This prevents React updates from interfering with your animation timeline while 
 | `leave`    | `function` | `next => next()` | Function to handle the leaving animation          |
 | `enter`    | `function` | `next => next()` | Function to handle the entering animation         |
 | `auto`     | `boolean`  | `false`          | Flag to enable/disable auto-detection of links    |
+| `watchSearchParams` | `boolean` | `false` | Animate query string changes on the same pathname. |
 
 ### `useTransitionState`
 
@@ -316,6 +342,22 @@ This prevents React updates from interfering with your animation timeline while 
 ## Disclaimer
 
 This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.
+
+## Local browser tests
+
+The example includes pagination controls and a checkbox for enabling query
+transitions. To run its Playwright regression tests against a production build:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm --filter next-transition-router-example exec playwright install chromium
+pnpm build
+pnpm --filter next-transition-router-example build
+pnpm --filter next-transition-router-example test:e2e
+```
+
+Add `--headed` to the last command to watch the browser. Failed tests retain
+Playwright traces in `example/test-results`.
 
 ## License
 

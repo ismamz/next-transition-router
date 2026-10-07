@@ -303,6 +303,16 @@ This prevents React updates from interfering with your animation timeline while 
 | `stage`   | `'entering' \| 'leaving' \| 'none'` | Indicates the current stage of the transition.     |
 | `isReady` | `boolean`                           | Indicates if the new page is ready to be animated. |
 
+## Used by…
+
+- [Eladio Dieste](https://www.eladiodieste.com/) (by [++hellohello](https://www.hellohello.is))
+- [Outfit®](https://outfit.hellohello.is/) (Awwwards SOTD & Dev, FWA of the Day, by [++hellohello](https://www.hellohello.is))
+- [197 Historias Ilustradas](https://www.197historiasilustradas.com/) (FWA of the Day, by [++hellohello](https://www.hellohello.is))
+- [Studio 375](https://375.studio/) (Awwwards SOTD & Dev)
+- [Anuc Home](https://www.anuchome.com/) (Awwwards SOTD & Dev, FWA of the Day, by [Edoardo Lunardi](https://www.edoardolunardi.dev/) & Eva Landaluce)
+- [Secret Level](https://www.secretlevel.co/) (by [Andreas Antonsson](https://www.andreasantonsson.dev/))
+- [MIUX Studio](https://madeinuxstudio.com/) (Awwwards SOTD, by MIUX)
+
 ## Disclaimer
 
 This package may not cover every use case. If you require a specific scenario, please [open an issue](https://github.com/ismamz/next-transition-router/issues/new/choose), and we can explore the possibility of extending the functionality.

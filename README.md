@@ -24,24 +24,59 @@ If you're looking to use the View Transitions API, check [next-view-transitions]
 > [!WARNING]
 > This project is currently in Beta. Please note that the API may change as features are enhanced and refined.
 
+## Video tutorials
+
+Learn how to build page transitions with these community tutorials.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=ngD_e4m45S0">
+        <img src="https://i.ytimg.com/vi/ngD_e4m45S0/maxresdefault.jpg" alt="Next JS Page Transitions Taken Over by GSAP (The Hyperactive Block Reveal Effect)" width="480" />
+        <br />
+        <strong>Next JS Page Transitions Taken Over by GSAP (The Hyperactive Block Reveal Effect)</strong>
+      </a>
+      <br />
+      Codegrid
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=Y_xP_IRGvbM">
+        <img src="https://i.ytimg.com/vi/Y_xP_IRGvbM/maxresdefault.jpg" alt="Premium SVG Page Transition in Next.js (GSAP + Next Transition Router)" width="480" />
+        <br />
+        <strong>Premium SVG Page Transition in Next.js (GSAP + Next Transition Router)</strong>
+      </a>
+      <br />
+      WolfDev
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=0TA4LTy4Ib0">
+        <img src="https://i.ytimg.com/vi/0TA4LTy4Ib0/maxresdefault.jpg" alt="The $10,000 Next JS Page Transition That Took Me One Coffee and Four Divs" width="480" />
+        <br />
+        <strong>The $10,000 Next JS Page Transition That Took Me One Coffee and Four Divs</strong>
+      </a>
+      <br />
+      Codegrid
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://www.youtube.com/watch?v=4pNvK0WMqCc">
+        <img src="https://i.ytimg.com/vi/4pNvK0WMqCc/maxresdefault.jpg" alt="I Let GSAP Eat My Next JS Page Transitions Again (The Awwwards SOTD One)" width="480" />
+        <br />
+        <strong>I Let GSAP Eat My Next JS Page Transitions Again (The Awwwards SOTD One)</strong>
+      </a>
+      <br />
+      Codegrid
+    </td>
+  </tr>
+</table>
+
 ## Installation
 
-Install the package using your preferred package manager:
-
-```sh
-pnpm add next-transition-router
-```
-
-```sh
-yarn add next-transition-router
-```
+Install the package using npm:
 
 ```sh
 npm install next-transition-router
-```
-
-```sh
-bun add next-transition-router
 ```
 
 ## Usage
@@ -275,3 +310,7 @@ This package may not cover every use case. If you require a specific scenario, p
 ## License
 
 MIT.
+
+---
+
+by [isma](https://isma.uy)

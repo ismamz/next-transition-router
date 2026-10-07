@@ -41,7 +41,7 @@ const TransitionRouterContext = createContext<{
   isReady: boolean;
 }>({
   stage: "none",
-  navigate: () => {},
+  navigate: () => { },
   isReady: false,
 });
 
@@ -58,6 +58,9 @@ export function TransitionRouter({
 
   const leaveRef = useRef<(() => void) | void | null>(null);
   const enterRef = useRef<(() => void) | void | null>(null);
+
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const touchHandledRef = useRef(false);
 
   const navigate: NavigateProps = useCallback(
     async (href, pathname, method = "push", options) => {
@@ -114,6 +117,11 @@ export function TransitionRouter({
 
   const handleClick = useCallback(
     (event: DelegateEvent<MouseEvent>) => {
+      if (touchHandledRef.current) {
+        touchHandledRef.current = false;
+        event.preventDefault();
+        return;
+      }
       const link = event.delegateTarget as HTMLAnchorElement;
       const href = link?.getAttribute("href");
       const ignore = link?.getAttribute("data-transition-ignore"); // ignore only works in auto mode
@@ -126,16 +134,73 @@ export function TransitionRouter({
     [navigate, pathname]
   );
 
+  const handleTouchStart = useCallback((event: TouchEvent) => {
+    const touch = event.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+    touchHandledRef.current = false;
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (event: TouchEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const link = target.closest("a[href]") as HTMLAnchorElement | null;
+      if (!link) return;
+
+      const ignore = link.getAttribute("data-transition-ignore");
+      if (ignore) return;
+
+      if (touchStartRef.current) {
+        const touch = event.changedTouches[0];
+        if (!touch) {
+          touchStartRef.current = null;
+          return;
+        }
+        const dx = Math.abs(touch.clientX - touchStartRef.current.x);
+        const dy = Math.abs(touch.clientY - touchStartRef.current.y);
+        touchStartRef.current = null;
+        if (dx > 10 || dy > 10) return;
+      }
+
+      const href = link.getAttribute("href");
+      if (!href) return;
+
+      const syntheticEvent = {
+        metaKey: false,
+        ctrlKey: false,
+        shiftKey: false,
+        altKey: false,
+        which: 1,
+        defaultPrevented: false,
+        delegateTarget: link,
+      };
+      if (!shouldLinkTriggerTransition(link, syntheticEvent)) return;
+
+      touchHandledRef.current = true;
+      navigate(href, pathname);
+    },
+    [navigate, pathname],
+  );
+
   useEffect(() => {
     if (!auto) return;
 
     const controller = new AbortController();
-    delegate("a[href]", "click", handleClick, { signal: controller.signal });
+    const signal = controller.signal;
+    delegate("a[href]", "click", handleClick, { signal });
 
-    return () => {
-      controller.abort();
-    };
-  }, [auto, handleClick]);
+    document.addEventListener("touchstart", handleTouchStart, {
+      signal,
+      passive: true,
+    });
+    document.addEventListener("touchend", handleTouchEnd, {
+      signal,
+      passive: true,
+    });
+
+    return () => controller.abort();
+  }, [auto, handleClick, handleTouchStart, handleTouchEnd]);
 
   useEffect(() => {
     if (stage === "entering") {

@@ -209,12 +209,12 @@ export function Programmatic() {
 ### Search parameter transitions
 
 By default, changing only the query string navigates without an animation. Opt in
-with `transitionOnSearchParams` to animate filtering, pagination, or other search
+with `watchSearchParams` to animate filtering, pagination, or other search
 parameter changes on the same pathname:
 
 ```tsx
 <TransitionRouter
-  transitionOnSearchParams
+  watchSearchParams
   leave={(next) => someAnimation().then(next)}
   enter={(next) => anotherAnimation().then(next)}
 >
@@ -320,7 +320,7 @@ This prevents React updates from interfering with your animation timeline while 
 | `leave`    | `function` | `next => next()` | Function to handle the leaving animation          |
 | `enter`    | `function` | `next => next()` | Function to handle the entering animation         |
 | `auto`     | `boolean`  | `false`          | Flag to enable/disable auto-detection of links    |
-| `transitionOnSearchParams` | `boolean` | `false` | Animate query string changes on the same pathname. |
+| `watchSearchParams` | `boolean` | `false` | Animate query string changes on the same pathname. |
 
 ### `useTransitionState`
 

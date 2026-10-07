@@ -27,7 +27,7 @@ export interface TransitionRouterProps {
   leave?: TransitionCallback;
   enter?: TransitionCallback;
   auto?: boolean;
-  transitionOnSearchParams?: boolean;
+  watchSearchParams?: boolean;
 }
 
 export type NavigateProps = (
@@ -52,7 +52,7 @@ export function TransitionRouter({
   leave = async (next) => next(),
   enter = async (next) => next(),
   auto = false,
-  transitionOnSearchParams = false,
+  watchSearchParams = false,
 }: TransitionRouterProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -101,7 +101,7 @@ export function TransitionRouter({
       const shouldTransition =
         target.origin === current.origin && // same origin
         (target.pathname !== current.pathname ||
-          (transitionOnSearchParams && isDifferentSearchParams));
+          (watchSearchParams && isDifferentSearchParams));
 
       if (shouldTransition) {
         setStage("leaving");
@@ -110,7 +110,7 @@ export function TransitionRouter({
         next();
       }
     },
-    [leave, router, stage, transitionOnSearchParams]
+    [leave, router, stage, watchSearchParams]
   );
 
   const handleClick = useCallback(
@@ -151,7 +151,7 @@ export function TransitionRouter({
     }
   }, [stage, enter]);
 
-  const navKey = transitionOnSearchParams
+  const navKey = watchSearchParams
     ? `${pathname}?${searchParamsKey}`
     : pathname;
 
@@ -173,7 +173,7 @@ export function TransitionRouter({
 
   return (
     <TransitionRouterContext.Provider value={value}>
-      {transitionOnSearchParams && (
+      {watchSearchParams && (
         <Suspense fallback={null}>
           <SearchParamsObserver onChange={setSearchParamsKey} />
         </Suspense>

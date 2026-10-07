@@ -20,7 +20,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <TransitionRouter
       auto={auto}
-      transitionOnSearchParams={enabled}
+      watchSearchParams={enabled}
       leave={(next, from, to) => {
         console.log({ from, to });
 
